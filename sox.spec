@@ -101,8 +101,8 @@ bibliotecas do sox.
 %patch2 -p1
 
 %build
-%{__aclocal}
-%{__autoconf}
+#%{__aclocal}
+#%{__autoconf}
 %configure \
 	--with-oss-dsp \
 	--with-gsm \
