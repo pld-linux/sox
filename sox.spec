@@ -1,6 +1,9 @@
 # Conditional build:
 %bcond_without	alsa	# without ALSA support
 #
+%ifarch sparc sparc64
+%undefine	with_alsa 
+%endif
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
 Summary(es):	Herramienta para conversiСn de archivos de sonido
@@ -12,7 +15,7 @@ Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
 Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
 Version:	12.17.5
-Release:	1
+Release:	1.1
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
