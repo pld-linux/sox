@@ -2,7 +2,6 @@
 # Conditional build:
 # _without_alsa - without ALSA support
 #
-
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
 Summary(es):	Herramienta para conversiСn de archivos de sonido
@@ -14,7 +13,7 @@ Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
 Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
 Version:	12.17.3
-Release:	8
+Release:	9
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://prdownloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
@@ -139,5 +138,5 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libst.a
-%{_includedir}/st.h
+%{_includedir}/*.h
 %{_mandir}/man3/*
