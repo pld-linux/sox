@@ -1,0 +1,22 @@
+--- sox-12.15/rec.orig	Mon Nov 23 17:08:27 1998
++++ sox-12.15/rec	Mon Nov 23 17:08:42 1998
+@@ -24,7 +24,7 @@
+ 
+ # Set up path so that it can find Sox if user's path doesn't already
+ # include it.
+-PATH=$PATH:/usr/local/bin
++PATH=$PATH:/usr/bin
+ export PATH
+ 
+ help()
+--- sox-12.15/play.orig	Mon Nov 23 17:08:31 1998
++++ sox-12.15/play	Mon Nov 23 17:08:49 1998
+@@ -28,7 +28,7 @@
+ 
+ # Set up path to sox so that it can find it if user's path doesn't already
+ # include it.
+-PATH=$PATH:/usr/local/bin
++PATH=$PATH:/usr/bin
+ export PATH
+ 
+ help()
