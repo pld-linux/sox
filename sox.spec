@@ -1,3 +1,5 @@
+# TODO:
+# - SECURITY: http://securitytracker.com/alerts/2004/Jul/1010800.html
 #
 # Conditional build:
 %bcond_without	alsa	# without ALSA support
