@@ -102,7 +102,7 @@ bibliotecas do sox.
 
 %build
 aclocal
-autoconf
+%{__autoconf}
 %configure \
 	--with-oss-dsp \
 	--with-gsm \
