@@ -2,9 +2,6 @@
 # Conditional build:
 # _without_alsa - without ALSA support
 #
-
-%define		_pre		pre2
-
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
 Summary(es):	Herramienta para conversiСn de archivos de sonido
@@ -16,10 +13,10 @@ Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
 Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
 Version:	12.17.4
-Release:	0.%{_pre}.1
+Release:	1
 License:	distributable
 Group:		Applications/Sound
-Source0:	http://sox.sourceforge.net/%{name}-%{version}-%{_pre}.tar.gz
+Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Patch0:		%{name}-play.patch
 Patch1:		%{name}-soundcard.patch
 Patch2:		%{name}-install.patch
@@ -100,7 +97,7 @@ Bibliotecas que podem ser usadas para compilar aplicaГУes que usem as
 bibliotecas do sox.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
