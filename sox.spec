@@ -14,17 +14,18 @@ Summary(tr):	Genel amaçlý ses dosyasý çevirme aracý
 Summary(uk):	õÔÉÌ¦ÔÁ ÚÁÇÁÌØÎÏÇÏ ÐÒÉÚÎÁÞÅÎÎÑ ÄÌÑ ÒÏÂÏÔÉ ¦Ú Ú×ÕËÏ×ÉÍÉ ÆÁÊÌÁÍÉ
 Name:		sox
 Version:	12.17.3
-Release:	5
+Release:	7
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://prdownloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
 Patch0:		%{name}-play.patch
 Patch1:		%{name}-soundcard.patch
 Patch2:		%{name}-install.patch
-URL:		http://sox.sourceforge.net
+URL:		http://sox.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libgsm-devel
+BuildRequires:	libvorbis-devel >= 1:1.0
 %ifnarch sparc sparc64
 %{!?_without_alsa:BuildRequires:	alsa-driver-devel}
 %endif
