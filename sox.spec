@@ -5,12 +5,16 @@
 
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
+Summary(es):	Herramienta para conversiСn de archivos de sonido
 Summary(fr):	outil gИnИral de conversion de fichiers son
 Summary(pl):	Program do konwersji plikСw d╪wiЙkowych
+Summary(pt_BR):	Ferramenta para conversЦo de arquivos de som
+Summary(ru):	Утилита общего назначения для работы со звуковыми файлами
 Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
+Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
 Version:	12.17.3
-Release:	1
+Release:	5
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://prdownloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
@@ -35,11 +39,36 @@ simple sound manipulation functions, including sound effects.
 Install the sox package if you'd like to convert sound file formats or
 manipulate some sounds.
 
+%description -l es
+sox se autodenomina "navaja suiza de las herramientas de sonido".
+Entiende varios formatos de sonidos digitalizados, pudiendo hacer
+conversiones entre estos formatos y desempeЯar funciones sencillas de
+manejo de sonido.
+
 %description -l pl
 SoX (Sound eXchange) jest konwerterem formatСw plikСw d╪wiЙkowych dla
 Linuksa, Uniksa i Dosa. SoX mo©e wykonywaФ konwersjЙ miЙdzy wieloma
 formatami cyfrowego d╪wiЙku. Mo©e tak©e dokonywaФ prostych manipulacji
 na d╪wiЙku, wliczaj╠c w to rС©ne efekty d╪wiekowe.
+
+%description -l ru
+Как говорится в документации, "швейцарский армейский нож звуковых
+утилит", sox умеет конвертировать звуковые файлы самых разнообразных
+форматов и производить несложную их обработку. С прилагаемым скриптом
+также может быть использован для проигрывания звуковых файлов.
+
+%description -l pt_BR
+O sox se autodenomina "canivete suМГo das ferramentas de som". Ele
+entende vАrios formatos de sons digitalizados, podendo fazer
+conversУes entre esses formatos e desempenhar funГУes simples de
+manipulaГЦo de som.
+
+%description -l uk
+В документац╕╖ цей пакет названо "швейцарським арм╕йським ножиком
+звукових утил╕т". В╕н вм╕╓ конвертувати звуков╕ файли
+найр╕зноман╕тн╕ших формат╕в та виконувати нескладну ╖х обробку. В
+пакет входить скрипт, який можна використовувати для програвання
+звукових файл╕в.
 
 %package devel
 Summary:	The SoX sound file format converter libraries
@@ -53,9 +82,17 @@ which will use the SoX sound file format converter.
 Install sox-devel if you want to develop applications which will use
 SoX.
 
+%description devel -l es
+Bibliotecas que pueden ser usadas para compilar aplicaciones que usen
+las bibliotecas del sox.
+
 %description devel -l pl
 Ten pakiet zawiera biblioteki potrzebne do kompilacji aplikacji, ktСre
 bЙd╠ wykorzystywaЁy konwerter formatСw plikСw d╪wiЙkowych SoX.
+
+%description devel -l pt_BR
+Bibliotecas que podem ser usadas para compilar aplicaГУes que usem as
+bibliotecas do sox.
 
 %prep
 %setup -q
