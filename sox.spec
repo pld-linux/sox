@@ -1,6 +1,6 @@
 #
 # Conditional build:	
-# bcond_off_alsa - without ALSA support
+# _without_alsa - without ALSA support
 #
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
@@ -23,7 +23,7 @@ PAtch5:		%{name}-soundcard.patch
 URL:		http://home.sprynet.com/~cbagwell/sox.html
 BuildRequires:	libgsm-devel
 %ifnarch sparc sparc64
-%{!?bcond_off_alsa:BuildRequires:	alsa-driver-devel}
+%{!?_without_alsa:BuildRequires:	alsa-driver-devel}
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -64,7 +64,7 @@ SoX.
 	--with-oss-dsp \
 	--with-gsm \
 %ifnarch sparc sparc64
-	%{!?bcond_off_alsa:--with-alsa-dsp}
+	%{!?_without_alsa:--with-alsa-dsp}
 %endif
 
 %{__make} PREFIX=%{_prefix}
