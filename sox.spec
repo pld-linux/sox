@@ -71,6 +71,8 @@ bêd± wykorzystywa³y konwerter formatów plików d¼wiêkowych SoX.
 %patch5 -p1
 
 %build
+aclocal
+autoconf
 %configure \
 	--with-oss-dsp \
 	--with-gsm \
