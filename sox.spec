@@ -39,14 +39,14 @@ SoX.
 %patch2 -p1
 
 %build
-make PREFIX=%{_prefix} RPM_OPT_FLAGS="$RPM_OPT_FLAGS" 
+%{__make} PREFIX=%{_prefix} RPM_OPT_FLAGS="$RPM_OPT_FLAGS" 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_mandir}/man{1,3}}
 
-make install install-lib \
+%{__make} install install-lib \
 	PREFIX=$RPM_BUILD_ROOT%{_prefix} \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
 	INSTALL_DIR=$RPM_BUILD_ROOT 
