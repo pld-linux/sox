@@ -1,4 +1,7 @@
 #
+# TODO:
+# - SECURITY: http://securitytracker.com/alerts/2004/Jul/1010800.html
+#
 # Conditional build:
 # _without_alsa - without ALSA support
 #
