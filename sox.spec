@@ -103,6 +103,7 @@ bibliotecas do sox.
 %build
 #%{__aclocal}
 #%{__autoconf}
+cp -f /usr/share/automake/config.sub .
 %configure \
 	--with-oss-dsp \
 	--with-gsm \
