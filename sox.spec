@@ -1,3 +1,4 @@
+#
 # Conditional build:
 %bcond_without	alsa	# without ALSA support
 #
@@ -11,21 +12,18 @@ Summary(ru):	Утилита общего назначения для работы со звуковыми файлами
 Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
 Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
-Version:	12.17.5
-Release:	3
+Version:	12.17.6
+Release:	1
 License:	distributable
 Group:		Applications/Sound
-Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-# Source0-md5:	53a3ebe3da0f5845770fd99e2ff0a965
+Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
+# Source0-md5:	ea368e7baf6618a2116f3ed6c111bd4a
 Patch0:		%{name}-play.patch
-Patch1:		%{name}-soundcard.patch
-Patch2:		%{name}-install.patch
+Patch1:		%{name}-install.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-driver-devel}
-BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	lame-libs-devel
-BuildRequires:	libgsm-devel
 BuildRequires:	libmad-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -98,18 +96,16 @@ bibliotecas do sox.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
-#%%{__aclocal}
-#%%{__autoconf}
 cp -f /usr/share/automake/config.sub .
 %configure \
 	--with-oss-dsp \
 	--with-gsm \
 	%{?with_alsa:--with-alsa-dsp}
 
-%{__make} PREFIX=%{_prefix}
+%{__make} \
+	PREFIX=%{_prefix}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -126,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc monkey.* Changelog README TODO
+%doc src/monkey.* Changelog README TODO
 %attr(755,root,root) %{_bindir}/[!l]*
 %{_mandir}/man1/*
 
