@@ -2,25 +2,23 @@
 # Conditional build:	
 # _without_alsa - without ALSA support
 #
+
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
 Summary(fr):	outil général de conversion de fichiers son
 Summary(pl):	Program do konwersji plików d¼wiêkowych
 Summary(tr):	Genel amaçlý ses dosyasý çevirme aracý
 Name:		sox
-Version:	12.17.1
-Release:	3
+Version:	12.17.3
+Release:	1
 License:	distributable
 Group:		Applications/Sound
 Group(de):	Applikationen/Laut
 Group(pl):	Aplikacje/D¼wiêk
 Source0:	http://prdownloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
-Patch0:		%{name}-paths.patch
-Patch1:		%{name}-makefile.patch
-Patch2:		%{name}-play.patch
-Patch3:		%{name}-types.patch
-Patch4:		%{name}-saywhat.patch
-Patch5:		%{name}-soundcard.patch
+Patch0:		%{name}-play.patch
+Patch1:		%{name}-soundcard.patch
+Patch2:		%{name}-install.patch
 URL:		http://sox.sourceforge.net
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -73,9 +71,6 @@ bêd± wykorzystywa³y konwerter formatów plików d¼wiêkowych SoX.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %build
 aclocal
@@ -91,21 +86,13 @@ autoconf
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_mandir}/man{1,3}}
 
 %{__make} install install-lib \
-	PREFIX=$RPM_BUILD_ROOT%{_prefix} \
-	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
-	BINDIR=$RPM_BUILD_ROOT%{_bindir} \
-	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
-	INCDIR=$RPM_BUILD_ROOT%{_includedir} \
-	INSTALL_DIR=$RPM_BUILD_ROOT 
+	DESTDIR=$RPM_BUILD_ROOT
 
 echo "#!/bin/sh" > $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo "" >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo '%{_bindir}/sox $1 -t .au - > /dev/audio' >> $RPM_BUILD_ROOT%{_bindir}/soxplay
-
-echo .so play.1 >$RPM_BUILD_ROOT%{_mandir}/man1/rec.1
 
 gzip -9nf Changelog README TODO INSTALL
 
@@ -116,6 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc *.gz monkey.*
 %attr(755,root,root) %{_bindir}/sox
+%attr(755,root,root) %{_bindir}/soxmix
 %attr(755,root,root) %{_bindir}/play   
 %attr(755,root,root) %{_bindir}/rec  
 %attr(755,root,root) %{_bindir}/soxplay
