@@ -17,6 +17,9 @@ Source0:	http://home.sprynet.com/sprynet/cbagwell/%{name}-%{version}.tar.gz
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-makefile.patch
 Patch2:		%{name}-play.patch
+Patch3:		%{name}-types.patch
+Patch4:		%{name}-saywhat.patch
+PAtch5:		%{name}-soundcard.patch
 URL:		http://home.sprynet.com/~cbagwell/sox.html
 BuildRequires:	libgsm-devel
 %ifnarch sparc sparc64
@@ -52,10 +55,14 @@ SoX.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 %configure \
 	--with-oss-dsp \
+	--with-gsm \
 %ifnarch sparc sparc64
 	%{!?bcond_off_alsa:--with-alsa-dsp}
 %endif
