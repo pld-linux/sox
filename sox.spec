@@ -9,7 +9,7 @@ Url:		http://home.sprynet.com/sprynet/cbagwell/
 Patch0:		sox-12.15-paths.patch
 Patch1:		sox-12.15-space.patch
 Patch2:		sox-play.patch 
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 SoX (Sound eXchange) is a sound file format converter for Linux,
