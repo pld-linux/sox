@@ -1,6 +1,3 @@
-# TODO:
-# - SECURITY: http://securitytracker.com/alerts/2004/Jul/1010800.html
-#
 # Conditional build:
 %bcond_without	alsa	# without ALSA support
 #
@@ -14,12 +11,12 @@ Summary(ru):	Утилита общего назначения для работы со звуковыми файлами
 Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
 Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
-Version:	12.17.4
+Version:	12.17.5
 Release:	1
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-# Source0-md5: 39bdb64e06a8c456057e87eff7d0b339
+# Source0-md5:	53a3ebe3da0f5845770fd99e2ff0a965
 Patch0:		%{name}-play.patch
 Patch1:		%{name}-soundcard.patch
 Patch2:		%{name}-install.patch
