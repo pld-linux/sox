@@ -5,6 +5,7 @@
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
 Summary(fr):	outil général de conversion de fichiers son
+Summary(pl):	Program do konwersji plików d¼wiêkowych
 Summary(tr):	Genel amaçlý ses dosyasý çevirme aracý
 Name:		sox
 Version:	12.17.1
@@ -36,6 +37,12 @@ simple sound manipulation functions, including sound effects.
 Install the sox package if you'd like to convert sound file formats or
 manipulate some sounds.
 
+%description -l pl
+SoX (Sound eXchange) jest konwerterem formatów plików d¼wiêkowych dla
+Linuksa, Uniksa i Dosa. SoX mo¿e wykonywaæ konwersjê miêdzy wieloma
+formatami cyfrowego d¼wiêku. Mo¿e tak¿e dokonywaæ prostych manipulacji
+na d¼wiêku, wliczaj±c w to ró¿ne efekty d¼wiekowe.
+
 %package devel
 Summary:	The SoX sound file format converter libraries.
 Group:		Development/Libraries
@@ -49,6 +56,10 @@ which will use the SoX sound file format converter.
 
 Install sox-devel if you want to develop applications which will use
 SoX.
+
+%description devel -l pl
+Tan pakiet zawiera biblioteki potrzebne do kompilacji aplikacji, które
+bêd± wykorzystywa³y konwerter formatów plików d¼wiêkowych SoX.
 
 %prep
 %setup -q 
