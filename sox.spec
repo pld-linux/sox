@@ -26,8 +26,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	lame-libs-devel
 BuildRequires:	libgsm-devel
-BuildRequires:	libmad-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
+BuildRequires:	mad-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
