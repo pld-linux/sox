@@ -1,5 +1,5 @@
 #
-# Conditional build:	
+# Conditional build:
 # _without_alsa - without ALSA support
 #
 
@@ -46,7 +46,7 @@ Summary:	The SoX sound file format converter libraries
 Summary(pl):	Biblioteka SoX do konwertowania plików d¼wiêkowych
 Group:		Development/Libraries
 
-%description devel 
+%description devel
 This package contains the library needed for compiling applications
 which will use the SoX sound file format converter.
 
@@ -58,7 +58,7 @@ Ten pakiet zawiera biblioteki potrzebne do kompilacji aplikacji, które
 bêd± wykorzystywa³y konwerter formatów plików d¼wiêkowych SoX.
 
 %prep
-%setup -q 
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -95,8 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc *.gz monkey.*
 %attr(755,root,root) %{_bindir}/sox
 %attr(755,root,root) %{_bindir}/soxmix
-%attr(755,root,root) %{_bindir}/play   
-%attr(755,root,root) %{_bindir}/rec  
+%attr(755,root,root) %{_bindir}/play
+%attr(755,root,root) %{_bindir}/rec
 %attr(755,root,root) %{_bindir}/soxplay
 %{_mandir}/man1/*
 
