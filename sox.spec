@@ -10,7 +10,7 @@ Summary(tr):	Genel amaçlı ses dosyası çevirme aracı
 Name:		sox
 Version:	12.17.1
 Release:	3
-LIcense:	Distributable
+License:	Distributable
 Group:		Applications/Sound
 Group(de):	Applikationen/Laut
 Group(pl):	Aplikacje/D¼wiêk
@@ -20,8 +20,10 @@ Patch1:		%{name}-makefile.patch
 Patch2:		%{name}-play.patch
 Patch3:		%{name}-types.patch
 Patch4:		%{name}-saywhat.patch
-PAtch5:		%{name}-soundcard.patch
+Patch5:		%{name}-soundcard.patch
 URL:		http://home.sprynet.com/~cbagwell/sox.html
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	libgsm-devel
 %ifnarch sparc sparc64
 %{!?_without_alsa:BuildRequires:	alsa-driver-devel}
@@ -44,11 +46,16 @@ formatami cyfrowego d¼wiêku. Mo¿e tak¿e dokonywaæ prostych manipulacji
 na d¼wiêku, wliczaj±c w to ró¿ne efekty d¼wiekowe.
 
 %package devel
-Summary:	The SoX sound file format converter libraries.
+Summary:	The SoX sound file format converter libraries
+Summary(pl):	Biblioteka SoX do konwertowania plików d¼wiêkowych
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 
 %description devel 
 This package contains the library needed for compiling applications
@@ -58,7 +65,7 @@ Install sox-devel if you want to develop applications which will use
 SoX.
 
 %description devel -l pl
-Tan pakiet zawiera biblioteki potrzebne do kompilacji aplikacji, które
+Ten pakiet zawiera biblioteki potrzebne do kompilacji aplikacji, które
 bêd± wykorzystywa³y konwerter formatów plików d¼wiêkowych SoX.
 
 %prep
