@@ -1,3 +1,7 @@
+#
+# Conditional build:
+# bcond_off_alsa - without ALSA support
+#
 Summary:	A general purpose sound file conversion tool.
 Name:		sox
 Version:	12.17
@@ -10,7 +14,7 @@ Patch0:		sox-12.15-paths.patch
 Patch1:		sox-makefile.patch
 Patch2:		sox-play.patch 
 BuildRequires:	libgsm-devel
-BuildRequires:	alsa-driver-devel
+%{!?bcond_off_alsa:BuildRequires:	alsa-driver-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -41,7 +45,9 @@ SoX.
 %patch2 -p1
 
 %build
-%configure --with-alsa-dsp --with-oss-dsp
+%configure --with-oss-dsp \
+	%{!?bcond_off_alsa:--with-alsa-dsp}
+
 %{__make} PREFIX=%{_prefix} RPM_OPT_FLAGS="$RPM_OPT_FLAGS" 
 
 %install
