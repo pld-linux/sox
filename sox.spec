@@ -101,7 +101,7 @@ bibliotecas do sox.
 %patch2 -p1
 
 %build
-aclocal
+%{__aclocal}
 %{__autoconf}
 %configure \
 	--with-oss-dsp \
