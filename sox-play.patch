@@ -1,5 +1,5 @@
---- sox-12.17.3/play.in.orig	Sat Jan 19 21:12:49 2002
-+++ sox-12.17.3/play.in	Sat Jan 19 21:14:47 2002
+--- sox-12.17.6/src/play.in.orig	Sat Jan 19 21:12:49 2002
++++ sox-12.17.6/src/play.in	Sat Jan 19 21:14:47 2002
 @@ -156,37 +156,10 @@
      shift
  done
