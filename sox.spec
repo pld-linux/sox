@@ -1,14 +1,16 @@
 Summary:	A general purpose sound file conversion tool.
 Name:		sox
-Version:	12.15
-Release:	5
+Version:	12.17
+Release:	1
 Copyright:	distributable
 Group:		Applications/Multimedia
 Source:		http://home.sprynet.com/sprynet/cbagwell/%{name}-%{version}.tar.gz
 Url:		http://home.sprynet.com/sprynet/cbagwell/
 Patch0:		sox-12.15-paths.patch
-Patch1:		sox-12.15-space.patch
+Patch1:		sox-makefile.patch
 Patch2:		sox-play.patch 
+BuildRequires:	libgsm-devel
+BuildRequires:	alsa-driver-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -39,6 +41,7 @@ SoX.
 %patch2 -p1
 
 %build
+%configure --with-alsa-dsp --with-oss-dsp
 %{__make} PREFIX=%{_prefix} RPM_OPT_FLAGS="$RPM_OPT_FLAGS" 
 
 %install
@@ -49,30 +52,34 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_mandir}/man{1,3}}
 %{__make} install install-lib \
 	PREFIX=$RPM_BUILD_ROOT%{_prefix} \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
+	BINDIR=$RPM_BUILD_ROOT%{_bindir} \
+	LIBDIR=$RPM_BUILD_ROOT%{_libdir} \
+	INCDIR=$RPM_BUILD_ROOT%{_includedir} \
 	INSTALL_DIR=$RPM_BUILD_ROOT 
 
 echo "#!/bin/sh" > $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo "" >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo '%{_bindir}/sox $1 -t .au - > /dev/audio' >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 
-strip --strip-unneeded $RPM_BUILD_ROOT%{_bindir}/sox
+echo .so play.1 >$RPM_BUILD_ROOT%{_mandir}/man1/rec.1
 
-gzip -9nf Changelog README TIPS TODO CHEAT* \
-	$RPM_BUILD_ROOT%{_mandir}/man*/*
+
+gzip -9nf Changelog README TODO INSTALL
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {Changelog,README,TIPS,TODO,CHEAT*}.gz
+%doc {Changelog,README,TODO}.gz monkey.*
 %attr(755,root,root) %{_bindir}/sox
 %attr(755,root,root) %{_bindir}/play   
 %attr(755,root,root) %{_bindir}/rec  
 %attr(755,root,root) %{_bindir}/soxplay
-%{_mandir}/man1/*.1.gz
+%{_mandir}/man1/*
 
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libst.a
-%{_mandir}/man3/*.3.gz
+%{_includedir}/st.h
+%{_mandir}/man3/*
