@@ -22,15 +22,13 @@ Patch0:		%{name}-play.patch
 Patch1:		%{name}-soundcard.patch
 Patch2:		%{name}-install.patch
 URL:		http://sox.sourceforge.net/
-%ifnarch sparc sparc64
 %{!?_without_alsa:BuildRequires:	alsa-driver-devel}
-%endif
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	lame-libs-devel
 BuildRequires:	libgsm-devel
+BuildRequires:	libmad-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
-BuildRequires:	mad-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -109,9 +107,7 @@ bibliotecas do sox.
 %configure \
 	--with-oss-dsp \
 	--with-gsm \
-%ifnarch sparc sparc64
 	%{!?_without_alsa:--with-alsa-dsp}
-%endif
 
 %{__make} PREFIX=%{_prefix}
 
