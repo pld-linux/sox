@@ -1,15 +1,15 @@
-Summary: A general purpose sound file conversion tool.
-Name: sox
-Version: 12.15
-Release: 5
-Copyright: distributable
-Group: Applications/Multimedia
-Source: http://home.sprynet.com/sprynet/cbagwell/sox-12.15.tar.gz
-Url: http://home.sprynet.com/sprynet/cbagwell/
-Patch0: sox-12.15-paths.patch
-Patch1: sox-12.15-space.patch
-Patch2: sox-play.patch 
-BuildRoot: /var/tmp/sox-root
+Summary:	A general purpose sound file conversion tool.
+Name:		sox
+Version:	12.15
+Release:	5
+Copyright:	distributable
+Group:		Applications/Multimedia
+Source:		http://home.sprynet.com/sprynet/cbagwell/%{name}-%{version}.tar.gz
+Url:		http://home.sprynet.com/sprynet/cbagwell/
+Patch0:		sox-12.15-paths.patch
+Patch1:		sox-12.15-space.patch
+Patch2:		sox-play.patch 
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
 SoX (Sound eXchange) is a sound file format converter for Linux,
@@ -21,11 +21,11 @@ including sound effects.
 Install the sox package if you'd like to convert sound file formats
 or manipulate some sounds.
 
-%package -n  sox-devel
-Summary: The SoX sound file format converter libraries.
-Group: Development/Libraries
+%package devel
+Summary:	The SoX sound file format converter libraries.
+Group:		Development/Libraries
 
-%description -n sox-devel 
+%description devel 
 This package contains the library needed for compiling applications
 which will use the SoX sound file format converter.
 
@@ -34,42 +34,45 @@ SoX.
 
 %prep
 %setup -q 
-%patch0 -p1 -b .sox
-%patch1 -p1 -b .space
-%patch2 -p1 -b .play
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
-make PREFIX=/usr RPM_OPT_FLAGS="$RPM_OPT_FLAGS" 
+make PREFIX=%{_prefix} RPM_OPT_FLAGS="$RPM_OPT_FLAGS" 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT/usr/bin/
-mkdir -p $RPM_BUILD_ROOT/usr/lib/
-mkdir -p $RPM_BUILD_ROOT/usr/man/man1/
-mkdir -p $RPM_BUILD_ROOT/usr/man/man3/
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_mandir}/man{1,3}}
 
-make PREFIX=$RPM_BUILD_ROOT/usr install INSTALL_DIR=$RPM_BUILD_ROOT 
-make PREFIX=$RPM_BUILD_ROOT/usr install-lib 
+make install install-lib \
+	PREFIX=$RPM_BUILD_ROOT%{_prefix} \
+	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
+	INSTALL_DIR=$RPM_BUILD_ROOT 
 
-echo "#!/bin/sh" > $RPM_BUILD_ROOT/usr/bin/soxplay
-echo "" >> $RPM_BUILD_ROOT/usr/bin/soxplay
-echo '/usr/bin/sox $1 -t .au - > /dev/audio' >> $RPM_BUILD_ROOT/usr/bin/soxplay
-chmod 755 $RPM_BUILD_ROOT/usr/bin/soxplay
+echo "#!/bin/sh" > $RPM_BUILD_ROOT%{_bindir}/soxplay
+echo "" >> $RPM_BUILD_ROOT%{_bindir}/soxplay
+echo '%{_bindir}/sox $1 -t .au - > /dev/audio' >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 
-strip $RPM_BUILD_ROOT/usr/bin/sox
+strip --strip-unneeded $RPM_BUILD_ROOT%{_bindir}/sox
+
+gzip -9nf Changelog README TIPS TODO CHEAT* \
+	$RPM_BUILD_ROOT%{_mandir}/man*/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
-%doc Changelog README TIPS TODO INSTALL CHEAT*
-/usr/bin/sox
-/usr/bin/play   
-/usr/bin/rec  
-/usr/bin/soxplay
-/usr/man/man1/sox.1
-%files -n sox-devel
-%defattr(-,root,root)
-/usr/lib/libst.a
+%defattr(644,root,root,755)
+%doc {Changelog,README,TIPS,TODO,CHEAT*}.gz
+%attr(755,root,root) %{_bindir}/sox
+%attr(755,root,root) %{_bindir}/play   
+%attr(755,root,root) %{_bindir}/rec  
+%attr(755,root,root) %{_bindir}/soxplay
+%{_mandir}/man1/*.1.gz
+
+%files devel
+%defattr(644,root,root,755)
+%{_libdir}/libst.a
+%{_mandir}/man3/*.3.gz
