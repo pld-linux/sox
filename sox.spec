@@ -3,20 +3,25 @@
 # bcond_off_alsa - without ALSA support
 #
 Summary:	A general purpose sound file conversion tool
+Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
+Summary(fr):	outil général de conversion de fichiers son
+Summary(tr):	Genel amaçlý ses dosyasý çevirme aracý
 Name:		sox
-Version:	12.17
-Release:	1
+Version:	12.17.1
+Release:	3
 LIcense:	Distributable
 Group:		Applications/Sound
 Group(de):	Applikationen/Laut
 Group(pl):	Aplikacje/D¼wiêk
 Source0:	http://home.sprynet.com/sprynet/cbagwell/%{name}-%{version}.tar.gz
-Url:		http://home.sprynet.com/sprynet/cbagwell/
-Patch0:		%{name}-12.15-paths.patch
+Patch0:		%{name}-paths.patch
 Patch1:		%{name}-makefile.patch
 Patch2:		%{name}-play.patch
+URL:		http://home.sprynet.com/~cbagwell/sox.html
 BuildRequires:	libgsm-devel
+%ifnarch sparc sparc64
 %{!?bcond_off_alsa:BuildRequires:	alsa-driver-devel}
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -49,8 +54,11 @@ SoX.
 %patch2 -p1
 
 %build
-%configure --with-oss-dsp \
+%configure \
+	--with-oss-dsp \
+%ifnarch sparc sparc64
 	%{!?bcond_off_alsa:--with-alsa-dsp}
+%endif
 
 %{__make} PREFIX=%{_prefix}
 
