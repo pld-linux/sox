@@ -1,6 +1,6 @@
---- sox-12.17.6/src/Makefile.in.orig	2004-10-03 03:02:24.000000000 +0200
-+++ sox-12.17.6/src/Makefile.in	2004-10-21 22:01:10.089196688 +0200
-@@ -102,24 +102,24 @@
+--- sox-12.17.7/src/Makefile.in.orig	2004-12-20 20:43:50.000000000 +0100
++++ sox-12.17.7/src/Makefile.in	2004-12-25 22:47:52.214986600 +0100
+@@ -103,24 +103,24 @@
  PLAY_INSTALL_1    = install-play
  
  install: sox soxmix $(PLAY_INSTALL_$(PLAY_SUPPORT))
@@ -15,11 +15,11 @@
 -	if [ -f $(bindir)/rec ] ; then $(RM) $(bindir)/rec; fi
 -	$(top_srcdir)/mkinstalldirs $(bindir)
 -	$(INSTALL) -c -m 755 play $(bindir)
--	$(LN_S) $(bindir)/play $(bindir)/rec
+-	cd $(bindir) && $(LN_S) play rec
 +	if [ -f $(DESTDIR)$(bindir)/rec ] ; then $(RM) $(DESTDIR)$(bindir)/rec; fi
 +	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(bindir)
 +	$(INSTALL) -c -m 755 play $(DESTDIR)$(bindir)
-+	$(LN_S) $(bindir)/play $(DESTDIR)$(bindir)/rec
++	cd $(DESTDIR)$(bindir) && $(LN_S) play rec
  
  install-lib: libst.a
 -	$(top_srcdir)/mkinstalldirs $(libdir)
@@ -39,32 +39,32 @@
  
  PLAY_UNINSTALL_0    =
  PLAY_UNINSTALL_1    = uninstall-play
---- sox-12.17.6/Makefile.in.orig	2004-09-02 00:04:02.000000000 +0200
-+++ sox-12.17.6/Makefile.in	2004-10-21 21:58:35.873641016 +0200
-@@ -29,22 +29,22 @@
+--- sox-12.17.7/Makefile.in.orig	2004-11-07 23:37:20.000000000 +0100
++++ sox-12.17.7/Makefile.in	2004-12-25 22:49:43.389085568 +0100
+@@ -32,22 +32,22 @@
  
  install: $(PLAY_INSTALL_$(PLAY_SUPPORT))
  	cd src && $(MAKE) $@
 -	$(srcdir)/mkinstalldirs $(mandir)/man1
 -	$(INSTALL) -c -m 644 $(srcdir)/sox.1 $(mandir)/man1
 -	if [ -f $(mandir)/man1/soxmix.1 ] ; then $(RM) $(mandir)/man1/soxmix.1; fi
--	$(LN_S) $(mandir)/man1/sox.1 $(mandir)/man1/soxmix.1
+-	cd $(mandir)/man1 && $(LN_S) sox.1 soxmix.1
 -	$(INSTALL) -c -m 644 $(srcdir)/soxexam.1 $(mandir)/man1
 +	$(srcdir)/mkinstalldirs $(DESTDIR)$(mandir)/man1
 +	$(INSTALL) -c -m 644 $(srcdir)/sox.1 $(DESTDIR)$(mandir)/man1
 +	if [ -f $(DESTDIR)$(mandir)/man1/soxmix.1 ] ; then $(RM) $(DESTDIR)$(mandir)/man1/soxmix.1; fi
-+	echo '.so sox.1' > $(DESTDIR)$(mandir)/man1/soxmix.1
++	cd $(DESTDIR)$(mandir)/man1 && echo '.so sox.1' > soxmix.1
 +	$(INSTALL) -c -m 644 $(srcdir)/soxexam.1 $(DESTDIR)$(mandir)/man1
  
  install-play:
 -	if [ -f $(mandir)/man1/rec.1 ]; then $(RM) $(mandir)/man1/rec.1; fi
 -	$(srcdir)/mkinstalldirs $(mandir)/man1
 -	$(INSTALL) -c -m 644 $(srcdir)/play.1 $(mandir)/man1
--	$(LN_S) $(mandir)/man1/play.1 $(mandir)/man1/rec.1
-+	if [ -f $(DESTDIR)$(mandir)/man1/rec.1 ]; then $(RM) $(DESTDIR)$(mandir)/man1/rec.1; fi
+-	cd $(mandir)/man1 && $(LN_S) play.1 rec.1
++	if [ -f $(mandir)/man1/rec.1 ]; then $(RM) $(DESTDIR)$(mandir)/man1/rec.1; fi
 +	$(srcdir)/mkinstalldirs $(DESTDIR)$(mandir)/man1
 +	$(INSTALL) -c -m 644 $(srcdir)/play.1 $(DESTDIR)$(mandir)/man1
-+	$(LN_S) $(mandir)/man1/play.1 $(DESTDIR)$(mandir)/man1/rec.1
++	cd $(DESTDIR)$(mandir)/man1 && echo '.so play.1' > rec.1
  
  install-lib:
  	cd src && $(MAKE) $@
