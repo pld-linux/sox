@@ -1,6 +1,6 @@
---- sox-12.17/play.orig	Sat Oct 21 12:39:28 2000
-+++ sox-12.17/play	Sat Oct 21 12:44:00 2000
-@@ -156,31 +156,10 @@
+--- sox-12.17.3/play.in.orig	Sat Jan 19 21:12:49 2002
++++ sox-12.17.3/play.in	Sat Jan 19 21:14:47 2002
+@@ -156,37 +156,10 @@
      shift
  done
  
@@ -26,6 +26,12 @@
 -    arch_defines="-t ossdsp"
 -    if [ -z "$device" ]; then
 -	device="/dev/dsp"
+-    fi
+-    ;;
+-  NetBSD)
+-    arch_defines="-t sunau"
+-    if [ -z "$device" ]; then
+-        device="/dev/audio"
 -    fi
 -    ;;
 -esac
