@@ -13,8 +13,6 @@ Version:	12.17.3
 Release:	1
 License:	distributable
 Group:		Applications/Sound
-Group(de):	Applikationen/Laut
-Group(pl):	Aplikacje/D¼wiêk
 Source0:	http://prdownloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
 Patch0:		%{name}-play.patch
 Patch1:		%{name}-soundcard.patch
@@ -47,13 +45,6 @@ na d¼wiêku, wliczaj±c w to ró¿ne efekty d¼wiekowe.
 Summary:	The SoX sound file format converter libraries
 Summary(pl):	Biblioteka SoX do konwertowania plików d¼wiêkowych
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
-Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 
 %description devel 
 This package contains the library needed for compiling applications
