@@ -9,14 +9,14 @@
  export PATH
  
  help()
---- sox-12.15/play.orig	Mon Nov 23 17:08:31 1998
-+++ sox-12.15/play	Mon Nov 23 17:08:49 1998
-@@ -28,7 +28,7 @@
+--- sox-12.15/play.orig	Sat Oct 21 12:32:37 2000
++++ sox-12.15/play	Sat Oct 21 12:34:45 2000
+@@ -14,7 +14,7 @@
  
- # Set up path to sox so that it can find it if user's path doesn't already
+ # Set up path so that it can find Sox if user's path doesn't already
  # include it.
 -PATH=$PATH:/usr/local/bin
 +PATH=$PATH:/usr/bin
- export PATH
+ program_name=`basename $0`
+ program_version="2.0"
  
- help()

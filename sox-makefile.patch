@@ -1,0 +1,12 @@
+--- sox-12.17/Makefile.in.old	Fri Sep  1 19:10:24 2000
++++ sox-12.17/Makefile.in	Sat Oct 21 13:30:47 2000
+@@ -95,8 +95,7 @@
+ 	$(srcdir)/mkinstalldirs $(BINDIR)
+ 	$(INSTALL) -c -m 755 $(srcdir)/play $(BINDIR)
+ 	$(INSTALL) -c -m 644 $(srcdir)/play.1 $(MANDIR)/man1
+-	ln -s $(BINDIR)/play $(BINDIR)/rec
+-	ln -s $(MANDIR)/man1/play.1 $(MANDIR)/man1/rec.1
++	ln -s play $(BINDIR)/rec
+ 
+ install-lib: libst.a
+ 	$(srcdir)/mkinstalldirs $(LIBDIR)/man1

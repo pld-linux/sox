@@ -1,44 +1,38 @@
---- sox-12.15/play.mike	Thu Apr  1 17:37:18 1999
-+++ sox-12.15/play	Thu Apr  1 17:40:00 1999
-@@ -49,7 +49,7 @@
- fi
- 
- while [ $# -ne 0 ] # loop over arguments
--do case $1 in
-+do case "$1" in
-    avg|band|chorus|copy|cut|echo|echos|flanger|highp|lowp|map|mask|phaser|pick|pred|rate|resample|reverb|reverse|split|stat|vibro)
-      effects="$@"
-      break
-@@ -91,32 +91,6 @@
-    shift
+--- sox-12.17/play.orig	Sat Oct 21 12:39:28 2000
++++ sox-12.17/play	Sat Oct 21 12:44:00 2000
+@@ -156,31 +156,10 @@
+     shift
  done
  
 -arch=`uname -s`
--
--if [ "$arch" = "SunOS" ]; then
--
--  case `arch -k` in
--    sun4|sun4c|sun4d)
--      # Use below for older Sun audio hardware
--      sox $volume $fopts $filename -t sunau -U -c 1 /dev/audio $effects
--      ;;
--
--    *)
--      # Use below for newer Sun audio hardware that supports stereo linear
--      sox $volume $fopts $filename -t sunau -w -s /dev/audio $effects
--      ;;
--
--  esac
--
--else
--  if [ "$arch" = "Linux" ]; then
--
--# Possible way to set volume
--#    if [ "$volume" != "" ] ; then
--#      mixer $volume
--#    fi
+-case $arch in
+-  SunOS)
+-    case `uname -r` in
+-        # Solaris software can auto-detect hardware capabilities.
+-        5.*)
+-	    arch_defines="-t sunau"
+-	    ;;
+-	# For SunOS default to signed words.  Some hardware can only play u-law and would need
+-	# to be changed here.
+-	*)
+-	    arch_defines="-t sunau -w -s"
+-	    ;;
+-    esac
+-    if [ -z "$device" ]; then
+-	device="/dev/audio"
+-    fi
+-    ;;
+-  Linux|FreeBSD)
+-    arch_defines="-t ossdsp"
+-    if [ -z "$device" ]; then
+-	device="/dev/dsp"
+-    fi
+-    ;;
+-esac
++arch_defines="-t ossdsp"
++if [ -z "$device" ]; then
++    device="/dev/dsp"
++fi
  
-     # Best to always use highest quality output for sound.
-     sox $volume $fopts "$filename" -t ossdsp -w -s /dev/dsp $effects
--  fi
--fi
+ # If name is "rec" then record else assume user is wanting to play
+ # a sound file.
