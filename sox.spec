@@ -47,7 +47,7 @@ manejo de sonido.
 SoX (Sound eXchange) jest konwerterem formatСw plikСw d╪wiЙkowych dla
 Linuksa, Uniksa i Dosa. SoX mo©e wykonywaФ konwersjЙ miЙdzy wieloma
 formatami cyfrowego d╪wiЙku. Mo©e tak©e dokonywaФ prostych manipulacji
-na d╪wiЙku, wliczaj╠c w to rС©ne efekty d╪wiekowe.
+na d╪wiЙku, wliczaj╠c w to rС©ne efekty d╪wiЙkowe.
 
 %description -l ru
 Как говорится в документации, "швейцарский армейский нож звуковых
