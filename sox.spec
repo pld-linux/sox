@@ -14,7 +14,7 @@ Summary(tr):	Genel amaçlý ses dosyasý çevirme aracý
 Summary(uk):	õÔÉÌ¦ÔÁ ÚÁÇÁÌØÎÏÇÏ ÐÒÉÚÎÁÞÅÎÎÑ ÄÌÑ ÒÏÂÏÔÉ ¦Ú Ú×ÕËÏ×ÉÍÉ ÆÁÊÌÁÍÉ
 Name:		sox
 Version:	12.17.3
-Release:	7
+Release:	8
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://prdownloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
@@ -123,14 +123,12 @@ echo "#!/bin/sh" > $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo "" >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo '%{_bindir}/sox $1 -t .au - > /dev/audio' >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 
-gzip -9nf Changelog README TODO INSTALL
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz monkey.*
+%doc monkey.* Changelog README TODO INSTALL
 %attr(755,root,root) %{_bindir}/sox
 %attr(755,root,root) %{_bindir}/soxmix
 %attr(755,root,root) %{_bindir}/play
