@@ -2,6 +2,9 @@
 # Conditional build:
 # _without_alsa - without ALSA support
 #
+
+%define		_pre		pre2
+
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
 Summary(es):	Herramienta para conversiСn de archivos de sonido
@@ -12,11 +15,11 @@ Summary(ru):	Утилита общего назначения для работы со звуковыми файлами
 Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
 Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
-Version:	12.17.3
-Release:	9
+Version:	12.17.4
+Release:	0.%{_pre}.1
 License:	distributable
 Group:		Applications/Sound
-Source0:	http://prdownloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
+Source0:	http://sox.sourceforge.net/%{name}-%{version}-%{_pre}.tar.gz
 Patch0:		%{name}-play.patch
 Patch1:		%{name}-soundcard.patch
 Patch2:		%{name}-install.patch
@@ -95,7 +98,7 @@ Bibliotecas que podem ser usadas para compilar aplicaГУes que usem as
 bibliotecas do sox.
 
 %prep
-%setup -q
+%setup -q -n %{name}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -127,16 +130,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc monkey.* Changelog README TODO INSTALL
-%attr(755,root,root) %{_bindir}/sox
-%attr(755,root,root) %{_bindir}/soxmix
-%attr(755,root,root) %{_bindir}/play
-%attr(755,root,root) %{_bindir}/rec
-%attr(755,root,root) %{_bindir}/soxplay
+%doc monkey.* Changelog README TODO
+%attr(755,root,root) %{_bindir}/[!l]*
 %{_mandir}/man1/*
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/libst-config
 %{_libdir}/libst.a
 %{_includedir}/*.h
 %{_mandir}/man3/*
