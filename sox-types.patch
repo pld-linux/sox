@@ -1,0 +1,27 @@
+--- sox-12.17.1/st.h.blarg	Tue Jan  2 11:56:01 2001
++++ sox-12.17.1/st.h	Tue Jan  2 11:56:24 2001
+@@ -33,14 +33,9 @@
+ #define st_free free
+ 
+ /* FIXME: Move to separate header */
+-#ifdef __alpha__
+ #include <sys/types.h>   /* To get defines for 32-bit integers */
+ #define	LONG	int32_t
+ #define ULONG	u_int32_t
+-#else
+-#define	LONG	long
+-#define ULONG	unsigned long
+-#endif
+ 
+ #define MAXLONG 0x7fffffffL
+ #define MAXULONG 0xffffffffL
+--- sox-12.17.1/resample.c.blarg	Tue Jan  2 12:00:15 2001
++++ sox-12.17.1/resample.c	Tue Jan  2 12:02:10 2001
+@@ -180,7 +180,6 @@
+ 	resample_t r = (resample_t) effp->priv;
+ 	LONG Xoff, gcdrate;
+ 	int i;
+-	extern long st_gcd(P2(long a,long b));
+ 
+ 	r->Factor = (double)effp->outinfo.rate / (double)effp->ininfo.rate;
+ 
