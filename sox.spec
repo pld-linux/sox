@@ -14,14 +14,14 @@ License:	Distributable
 Group:		Applications/Sound
 Group(de):	Applikationen/Laut
 Group(pl):	Aplikacje/D¼wiêk
-Source0:	http://home.sprynet.com/sprynet/cbagwell/%{name}-%{version}.tar.gz
+Source0:	http://prdownloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-makefile.patch
 Patch2:		%{name}-play.patch
 Patch3:		%{name}-types.patch
 Patch4:		%{name}-saywhat.patch
 Patch5:		%{name}-soundcard.patch
-URL:		http://home.sprynet.com/~cbagwell/sox.html
+URL:		http://sox.sourceforge.net
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libgsm-devel
