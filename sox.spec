@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _without_alsa - without ALSA support
+%bcond_without	alsa	# without ALSA support
 #
 Summary:	A general purpose sound file conversion tool
 Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
@@ -22,7 +22,7 @@ Patch0:		%{name}-play.patch
 Patch1:		%{name}-soundcard.patch
 Patch2:		%{name}-install.patch
 URL:		http://sox.sourceforge.net/
-%{!?_without_alsa:BuildRequires:	alsa-driver-devel}
+%{?with_alsa:BuildRequires:	alsa-driver-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	lame-libs-devel
@@ -107,7 +107,7 @@ bibliotecas do sox.
 %configure \
 	--with-oss-dsp \
 	--with-gsm \
-	%{!?_without_alsa:--with-alsa-dsp}
+	%{?with_alsa:--with-alsa-dsp}
 
 %{__make} PREFIX=%{_prefix}
 
