@@ -10,7 +10,7 @@ Summary(tr):	Genel amaçlý ses dosyasý çevirme aracý
 Name:		sox
 Version:	12.17.1
 Release:	3
-License:	Distributable
+License:	distributable
 Group:		Applications/Sound
 Group(de):	Applikationen/Laut
 Group(pl):	Aplikacje/D¼wiêk
