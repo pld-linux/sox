@@ -17,6 +17,7 @@ Release:	1
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+# Source0-md5: 39bdb64e06a8c456057e87eff7d0b339
 Patch0:		%{name}-play.patch
 Patch1:		%{name}-soundcard.patch
 Patch2:		%{name}-install.patch
