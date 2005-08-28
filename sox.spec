@@ -12,12 +12,12 @@ Summary(ru):	Утилита общего назначения для работы со звуковыми файлами
 Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
 Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
-Version:	12.17.7
+Version:	12.17.8
 Release:	1
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	a6876289602c1f2896b39e6a88e2a574
+# Source0-md5:	735e9add6979bd6308f213abefe389e8
 Patch0:		%{name}-play.patch
 Patch1:		%{name}-install.patch
 URL:		http://sox.sourceforge.net/
