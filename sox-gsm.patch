@@ -1,0 +1,39 @@
+--- sox-12.18.2/src/gsm.c.orig	2006-09-02 04:12:36.000000000 +0200
++++ sox-12.18.2/src/gsm.c	2006-09-11 22:17:12.895313500 +0200
+@@ -31,7 +31,11 @@
+ #if defined(ENABLE_GSM)
+ 
+ #if defined(EXTERNAL_GSM)
++#ifdef HAVE_GSM_H
++#include <gsm.h>
++#else
+ #include <gsm/gsm.h>
++#endif
+ #else
+ #include "libgsm/gsm.h"
+ #endif
+--- sox-12.18.2/src/wav.c.orig	2006-09-02 04:12:36.000000000 +0200
++++ sox-12.18.2/src/wav.c	2006-09-11 22:17:35.360717500 +0200
+@@ -73,7 +73,11 @@
+ #include "adpcm.h"
+ #ifdef ENABLE_GSM
+ #if defined(EXTERNAL_GSM)
++#ifdef HAVE_GSM_H
++#include <gsm.h>
++#else
+ #include <gsm/gsm.h>
++#endif
+ #else
+ #include "libgsm/gsm.h"
+ #endif
+--- sox-12.18.2/configure.in.orig	2006-08-28 01:04:51.000000000 +0200
++++ sox-12.18.2/configure.in	2006-09-11 22:18:03.286462750 +0200
+@@ -232,7 +232,7 @@
+ then
+     if test "$enable_external_gsm" = yes
+     then
+-        AC_CHECK_HEADERS(gsm/gsm.h, found_libgsm=yes)
++        AC_CHECK_HEADERS(gsm/gsm.h, found_libgsm=yes, [AC_CHECK_HEADERS(gsm.h, [AC_DEFINE(HAVE_GSM_H) found_libgsm=yes])])
+ 
+         if test "$found_libgsm" = yes
+         then
