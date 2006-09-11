@@ -39,9 +39,9 @@
  
  PLAY_UNINSTALL_0    =
  PLAY_UNINSTALL_1    = uninstall-play
---- sox-12.17.7/Makefile.in.orig	2004-11-07 23:37:20.000000000 +0100
-+++ sox-12.17.7/Makefile.in	2004-12-25 22:49:43.389085568 +0100
-@@ -32,22 +32,22 @@
+--- sox-12.18.2/Makefile.in.orig	2006-08-19 22:55:35.000000000 +0200
++++ sox-12.18.2/Makefile.in	2006-09-11 22:10:41.754868750 +0200
+@@ -33,22 +33,22 @@
  
  install: $(PLAY_INSTALL_$(PLAY_SUPPORT))
  	cd src && $(MAKE) $@
@@ -59,19 +59,19 @@
  install-play:
 -	if [ -f $(mandir)/man1/rec.1 ]; then $(RM) $(mandir)/man1/rec.1; fi
 -	$(srcdir)/mkinstalldirs $(mandir)/man1
--	$(INSTALL) -c -m 644 $(srcdir)/play.1 $(mandir)/man1
+-	$(INSTALL) -m 644 $(srcdir)/play.1 $(mandir)/man1
 -	cd $(mandir)/man1 && $(LN_S) play.1 rec.1
-+	if [ -f $(mandir)/man1/rec.1 ]; then $(RM) $(DESTDIR)$(mandir)/man1/rec.1; fi
++	if [ -f $(DESTDIR)$(mandir)/man1/rec.1 ]; then $(RM) $(DESTDIR)$(mandir)/man1/rec.1; fi
 +	$(srcdir)/mkinstalldirs $(DESTDIR)$(mandir)/man1
-+	$(INSTALL) -c -m 644 $(srcdir)/play.1 $(DESTDIR)$(mandir)/man1
++	$(INSTALL) -m 644 $(srcdir)/play.1 $(DESTDIR)$(mandir)/man1
 +	cd $(DESTDIR)$(mandir)/man1 && echo '.so play.1' > rec.1
  
  install-lib:
  	cd src && $(MAKE) $@
 -	$(srcdir)/mkinstalldirs $(mandir)/man3
--	$(INSTALL) -c -m 644 $(srcdir)/libst.3 $(mandir)/man3
+-	$(INSTALL) -m 644 $(srcdir)/libst.3 $(mandir)/man3
 +	$(srcdir)/mkinstalldirs $(DESTDIR)$(mandir)/man3
-+	$(INSTALL) -c -m 644 $(srcdir)/libst.3 $(DESTDIR)$(mandir)/man3
++	$(INSTALL) -m 644 $(srcdir)/libst.3 $(DESTDIR)$(mandir)/man3
  
  
  PLAY_UNINSTALL_0    =
