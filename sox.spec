@@ -12,17 +12,20 @@ Summary(ru):	Утилита общего назначения для работы со звуковыми файлами
 Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
 Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
 Name:		sox
-Version:	12.18.1
+Version:	12.18.2
 Release:	1
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	b12507493d3c8571fa8b6e70a01d5438
+# Source0-md5:	ba25e512a6c824d6e56d76767a18af99
 Patch0:		%{name}-install.patch
+Patch1:		%{name}-gsm.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
+BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	lame-libs-devel
+BuildRequires:	libgsm-devel
 BuildRequires:	libmad-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -94,9 +97,12 @@ bibliotecas do sox.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 cp -f /usr/share/automake/config.sub .
+%{__autoconf}
+%{__autoheader}
 %configure \
 	%{!?with_alsa:--disable-alsa-dsp}
 
