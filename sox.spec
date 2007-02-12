@@ -3,14 +3,14 @@
 %bcond_without	alsa	# without ALSA support
 #
 Summary:	A general purpose sound file conversion tool
-Summary(de):	Mehrzweck-Sounddatei-Konvertierungs-Tool
-Summary(es):	Herramienta para conversiСn de archivos de sonido
-Summary(fr):	outil gИnИral de conversion de fichiers son
-Summary(pl):	Program do konwersji plikСw d╪wiЙkowych
-Summary(pt_BR):	Ferramenta para conversЦo de arquivos de som
-Summary(ru):	Утилита общего назначения для работы со звуковыми файлами
-Summary(tr):	Genel amaГlЩ ses dosyasЩ Гevirme aracЩ
-Summary(uk):	Утил╕та загального призначення для роботи ╕з звуковими файлами
+Summary(de.UTF-8):   Mehrzweck-Sounddatei-Konvertierungs-Tool
+Summary(es.UTF-8):   Herramienta para conversiцЁn de archivos de sonido
+Summary(fr.UTF-8):   outil gц╘nц╘ral de conversion de fichiers son
+Summary(pl.UTF-8):   Program do konwersji plikцЁw dе╨wiд≥kowych
+Summary(pt_BR.UTF-8):   Ferramenta para conversцёo de arquivos de som
+Summary(ru.UTF-8):   пёя┌п╦п╩п╦я┌п╟ п╬п╠я┴п╣пЁп╬ п╫п╟п╥п╫п╟я┤п╣п╫п╦я▐ п╢п╩я▐ я─п╟п╠п╬я┌я▀ я│п╬ п╥п╡я┐п╨п╬п╡я▀п╪п╦ я└п╟п╧п╩п╟п╪п╦
+Summary(tr.UTF-8):   Genel amaц╖lд╠ ses dosyasд╠ ц╖evirme aracд╠
+Summary(uk.UTF-8):   пёя┌п╦п╩я√я┌п╟ п╥п╟пЁп╟п╩я▄п╫п╬пЁп╬ п©я─п╦п╥п╫п╟я┤п╣п╫п╫я▐ п╢п╩я▐ я─п╬п╠п╬я┌п╦ я√п╥ п╥п╡я┐п╨п╬п╡п╦п╪п╦ я└п╟п╧п╩п╟п╪п╦
 Name:		sox
 Version:	12.18.2
 Release:	1
@@ -39,40 +39,40 @@ simple sound manipulation functions, including sound effects.
 Install the sox package if you'd like to convert sound file formats or
 manipulate some sounds.
 
-%description -l es
+%description -l es.UTF-8
 sox se autodenomina "navaja suiza de las herramientas de sonido".
 Entiende varios formatos de sonidos digitalizados, pudiendo hacer
-conversiones entre estos formatos y desempeЯar funciones sencillas de
+conversiones entre estos formatos y desempeц╠ar funciones sencillas de
 manejo de sonido.
 
-%description -l pl
-SoX (Sound eXchange) jest konwerterem formatСw plikСw d╪wiЙkowych dla
-Linuksa, Uniksa i Dosa. SoX mo©e wykonywaФ konwersjЙ miЙdzy wieloma
-formatami cyfrowego d╪wiЙku. Mo©e tak©e dokonywaФ prostych manipulacji
-na d╪wiЙku, wliczaj╠c w to rС©ne efekty d╪wiЙkowe.
+%description -l pl.UTF-8
+SoX (Sound eXchange) jest konwerterem formatцЁw plikцЁw dе╨wiд≥kowych dla
+Linuksa, Uniksa i Dosa. SoX moе╪e wykonywaд┤ konwersjд≥ miд≥dzy wieloma
+formatami cyfrowego dе╨wiд≥ku. Moе╪e takе╪e dokonywaд┤ prostych manipulacji
+na dе╨wiд≥ku, wliczajд┘c w to rцЁе╪ne efekty dе╨wiд≥kowe.
 
-%description -l ru
-Как говорится в документации, "швейцарский армейский нож звуковых
-утилит", sox умеет конвертировать звуковые файлы самых разнообразных
-форматов и производить несложную их обработку. С прилагаемым скриптом
-также может быть использован для проигрывания звуковых файлов.
+%description -l ru.UTF-8
+п п╟п╨ пЁп╬п╡п╬я─п╦я┌я│я▐ п╡ п╢п╬п╨я┐п╪п╣п╫я┌п╟я├п╦п╦, "я┬п╡п╣п╧я├п╟я─я│п╨п╦п╧ п╟я─п╪п╣п╧я│п╨п╦п╧ п╫п╬п╤ п╥п╡я┐п╨п╬п╡я▀я┘
+я┐я┌п╦п╩п╦я┌", sox я┐п╪п╣п╣я┌ п╨п╬п╫п╡п╣я─я┌п╦я─п╬п╡п╟я┌я▄ п╥п╡я┐п╨п╬п╡я▀п╣ я└п╟п╧п╩я▀ я│п╟п╪я▀я┘ я─п╟п╥п╫п╬п╬п╠я─п╟п╥п╫я▀я┘
+я└п╬я─п╪п╟я┌п╬п╡ п╦ п©я─п╬п╦п╥п╡п╬п╢п╦я┌я▄ п╫п╣я│п╩п╬п╤п╫я┐я▌ п╦я┘ п╬п╠я─п╟п╠п╬я┌п╨я┐. п║ п©я─п╦п╩п╟пЁп╟п╣п╪я▀п╪ я│п╨я─п╦п©я┌п╬п╪
+я┌п╟п╨п╤п╣ п╪п╬п╤п╣я┌ п╠я▀я┌я▄ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫ п╢п╩я▐ п©я─п╬п╦пЁя─я▀п╡п╟п╫п╦я▐ п╥п╡я┐п╨п╬п╡я▀я┘ я└п╟п╧п╩п╬п╡.
 
-%description -l pt_BR
-O sox se autodenomina "canivete suМГo das ferramentas de som". Ele
-entende vАrios formatos de sons digitalizados, podendo fazer
-conversУes entre esses formatos e desempenhar funГУes simples de
-manipulaГЦo de som.
+%description -l pt_BR.UTF-8
+O sox se autodenomina "canivete suц╜ц╖o das ferramentas de som". Ele
+entende vц║rios formatos de sons digitalizados, podendo fazer
+conversц╣es entre esses formatos e desempenhar funц╖ц╣es simples de
+manipulaц╖цёo de som.
 
-%description -l uk
-В документац╕╖ цей пакет названо "швейцарським арм╕йським ножиком
-звукових утил╕т". В╕н вм╕╓ конвертувати звуков╕ файли
-найр╕зноман╕тн╕ших формат╕в та виконувати нескладну ╖х обробку. В
-пакет входить скрипт, який можна використовувати для програвання
-звукових файл╕в.
+%description -l uk.UTF-8
+п▓ п╢п╬п╨я┐п╪п╣п╫я┌п╟я├я√я≈ я├п╣п╧ п©п╟п╨п╣я┌ п╫п╟п╥п╡п╟п╫п╬ "я┬п╡п╣п╧я├п╟я─я│я▄п╨п╦п╪ п╟я─п╪я√п╧я│я▄п╨п╦п╪ п╫п╬п╤п╦п╨п╬п╪
+п╥п╡я┐п╨п╬п╡п╦я┘ я┐я┌п╦п╩я√я┌". п▓я√п╫ п╡п╪я√я■ п╨п╬п╫п╡п╣я─я┌я┐п╡п╟я┌п╦ п╥п╡я┐п╨п╬п╡я√ я└п╟п╧п╩п╦
+п╫п╟п╧я─я√п╥п╫п╬п╪п╟п╫я√я┌п╫я√я┬п╦я┘ я└п╬я─п╪п╟я┌я√п╡ я┌п╟ п╡п╦п╨п╬п╫я┐п╡п╟я┌п╦ п╫п╣я│п╨п╩п╟п╢п╫я┐ я≈я┘ п╬п╠я─п╬п╠п╨я┐. п▓
+п©п╟п╨п╣я┌ п╡я┘п╬п╢п╦я┌я▄ я│п╨я─п╦п©я┌, я▐п╨п╦п╧ п╪п╬п╤п╫п╟ п╡п╦п╨п╬я─п╦я│я┌п╬п╡я┐п╡п╟я┌п╦ п╢п╩я▐ п©я─п╬пЁя─п╟п╡п╟п╫п╫я▐
+п╥п╡я┐п╨п╬п╡п╦я┘ я└п╟п╧п╩я√п╡.
 
 %package devel
 Summary:	The SoX sound file format converter libraries
-Summary(pl):	Biblioteka SoX do konwertowania plikСw d╪wiЙkowych
+Summary(pl.UTF-8):   Biblioteka SoX do konwertowania plikцЁw dе╨wiд≥kowych
 Group:		Development/Libraries
 
 %description devel
@@ -82,16 +82,16 @@ which will use the SoX sound file format converter.
 Install sox-devel if you want to develop applications which will use
 SoX.
 
-%description devel -l es
+%description devel -l es.UTF-8
 Bibliotecas que pueden ser usadas para compilar aplicaciones que usen
 las bibliotecas del sox.
 
-%description devel -l pl
-Ten pakiet zawiera biblioteki potrzebne do kompilacji aplikacji, ktСre
-bЙd╠ wykorzystywaЁy konwerter formatСw plikСw d╪wiЙkowych SoX.
+%description devel -l pl.UTF-8
+Ten pakiet zawiera biblioteki potrzebne do kompilacji aplikacji, ktцЁre
+bд≥dд┘ wykorzystywaе┌y konwerter formatцЁw plikцЁw dе╨wiд≥kowych SoX.
 
-%description devel -l pt_BR
-Bibliotecas que podem ser usadas para compilar aplicaГУes que usem as
+%description devel -l pt_BR.UTF-8
+Bibliotecas que podem ser usadas para compilar aplicaц╖ц╣es que usem as
 bibliotecas do sox.
 
 %prep
