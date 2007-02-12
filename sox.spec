@@ -3,14 +3,14 @@
 %bcond_without	alsa	# without ALSA support
 #
 Summary:	A general purpose sound file conversion tool
-Summary(de.UTF-8):   Mehrzweck-Sounddatei-Konvertierungs-Tool
-Summary(es.UTF-8):   Herramienta para conversión de archivos de sonido
-Summary(fr.UTF-8):   outil général de conversion de fichiers son
-Summary(pl.UTF-8):   Program do konwersji plików dźwiękowych
-Summary(pt_BR.UTF-8):   Ferramenta para conversão de arquivos de som
-Summary(ru.UTF-8):   Утилита общего назначения для работы со звуковыми файлами
-Summary(tr.UTF-8):   Genel amaçlı ses dosyası çevirme aracı
-Summary(uk.UTF-8):   Утиліта загального призначення для роботи із звуковими файлами
+Summary(de.UTF-8):	Mehrzweck-Sounddatei-Konvertierungs-Tool
+Summary(es.UTF-8):	Herramienta para conversión de archivos de sonido
+Summary(fr.UTF-8):	outil général de conversion de fichiers son
+Summary(pl.UTF-8):	Program do konwersji plików dźwiękowych
+Summary(pt_BR.UTF-8):	Ferramenta para conversão de arquivos de som
+Summary(ru.UTF-8):	Утилита общего назначения для работы со звуковыми файлами
+Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
+Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
 Version:	12.18.2
 Release:	1
@@ -72,7 +72,7 @@ manipulação de som.
 
 %package devel
 Summary:	The SoX sound file format converter libraries
-Summary(pl.UTF-8):   Biblioteka SoX do konwertowania plików dźwiękowych
+Summary(pl.UTF-8):	Biblioteka SoX do konwertowania plików dźwiękowych
 Group:		Development/Libraries
 
 %description devel
