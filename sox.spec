@@ -12,21 +12,24 @@ Summary(ru.UTF-8):	Утилита общего назначения для ра�
 Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
-Version:	12.18.2
+Version:	13.0.0
 Release:	1
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	ba25e512a6c824d6e56d76767a18af99
-Patch0:		%{name}-install.patch
-Patch1:		%{name}-gsm.patch
+# Source0-md5:	0243d62895caee558b5294d5b78cfbcb
+Patch0:		%{name}-gsm.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
+#BuildRequires:	flac-devel < 1.1.3
 BuildRequires:	lame-libs-devel
 BuildRequires:	libgsm-devel
 BuildRequires:	libmad-devel
+BuildRequires:	libsamplerate-devel
+BuildRequires:	libsndfile-devel
+BuildRequires:	libtool
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -71,66 +74,89 @@ manipulação de som.
 звукових файлів.
 
 %package devel
-Summary:	The SoX sound file format converter libraries
-Summary(pl.UTF-8):	Biblioteka SoX do konwertowania plików dźwiękowych
+Summary:	Header files for the SoX sound file format converter library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki SoX do konwertowania plików dźwiękowych
 Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
-This package contains the library needed for compiling applications
-which will use the SoX sound file format converter.
-
-Install sox-devel if you want to develop applications which will use
-SoX.
-
-%description devel -l es.UTF-8
-Bibliotecas que pueden ser usadas para compilar aplicaciones que usen
-las bibliotecas del sox.
+This package contains the header files needed for compiling
+applications which will use the SoX sound file format converter.
 
 %description devel -l pl.UTF-8
-Ten pakiet zawiera biblioteki potrzebne do kompilacji aplikacji, które
-będą wykorzystywały konwerter formatów plików dźwiękowych SoX.
+Ten pakiet zawiera pliki nagłówkowe potrzebne do kompilacji aplikacji,
+wykorzystujących konwerter formatów plików dźwiękowych SoX.
 
-%description devel -l pt_BR.UTF-8
-Bibliotecas que podem ser usadas para compilar aplicações que usem as
-bibliotecas do sox.
+%package static
+Summary:	Static SoX sound file format converter library
+Summary(pl.UTF-8):	Biblioteka statyczna SoX do konwertowania plików dźwiękowych
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static SoX sound file format converter library.
+
+%description static -l pl.UTF-8
+Biblioteka statyczna SoX do konwertowania plików dźwiękowych.
 
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
-cp -f /usr/share/automake/config.sub .
+%{__libtoolize}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
+%{__automake}
 %configure \
 	%{!?with_alsa:--disable-alsa-dsp}
 
-%{__make} \
-	PREFIX=%{_prefix}
+%{__make}
+#	PREFIX=%{_prefix}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install install-lib \
+%{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 echo "#!/bin/sh" > $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo "" >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo '%{_bindir}/sox $1 -t .au - > /dev/audio' >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 
+rm -f $RPM_BUILD_ROOT%{_mandir}/man1/{play,rec}.1
+echo '.so sox.1' > $RPM_BUILD_ROOT%{_mandir}/man1/play.1
+echo '.so sox.1' > $RPM_BUILD_ROOT%{_mandir}/man1/rec.1
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
-%doc src/monkey.* Changelog README TODO
-%attr(755,root,root) %{_bindir}/[!l]*
-%{_mandir}/man1/*
+# COPYING contains only notes, not GPL/LGPL texts
+%doc AUTHORS COPYING ChangeLog README src/monkey.*
+%attr(755,root,root) %{_bindir}/play
+%attr(755,root,root) %{_bindir}/rec
+%attr(755,root,root) %{_bindir}/sox
+%attr(755,root,root) %{_bindir}/soxplay
+%attr(755,root,root) %{_libdir}/libst.so.*.*.*
+%{_mandir}/man1/play.1*
+%{_mandir}/man1/rec.1*
+%{_mandir}/man1/sox.1*
+%{_mandir}/man7/soxexam.7*
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/libst-config
+%attr(755,root,root) %{_libdir}/libst.so
+%{_libdir}/libst.la
+%{_includedir}/st*.h
+%{_mandir}/man3/libst.3*
+
+%files static
+%defattr(644,root,root,755)
 %{_libdir}/libst.a
-%{_includedir}/*.h
-%{_mandir}/man3/*
