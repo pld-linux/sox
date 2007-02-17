@@ -1,9 +1,9 @@
---- sox-12.18.2/src/gsm.c.orig	2006-09-02 04:12:36.000000000 +0200
-+++ sox-12.18.2/src/gsm.c	2006-09-11 22:17:12.895313500 +0200
-@@ -31,7 +31,11 @@
- #if defined(ENABLE_GSM)
+--- sox-13.0.0/src/gsm.c.orig	2007-01-25 02:02:01.000000000 +0100
++++ sox-13.0.0/src/gsm.c	2007-02-17 21:35:51.300359570 +0100
+@@ -29,7 +29,11 @@
+ #include "st_i.h"
  
- #if defined(EXTERNAL_GSM)
+ #ifdef EXTERNAL_GSM
 +#ifdef HAVE_GSM_H
 +#include <gsm.h>
 +#else
@@ -12,12 +12,12 @@
  #else
  #include "libgsm/gsm.h"
  #endif
---- sox-12.18.2/src/wav.c.orig	2006-09-02 04:12:36.000000000 +0200
-+++ sox-12.18.2/src/wav.c	2006-09-11 22:17:35.360717500 +0200
-@@ -73,7 +73,11 @@
+--- sox-13.0.0/src/wav.c.orig	2007-02-06 14:45:37.000000000 +0100
++++ sox-13.0.0/src/wav.c	2007-02-17 21:36:08.057314493 +0100
+@@ -24,7 +24,11 @@
+ #include "ima_rw.h"
  #include "adpcm.h"
- #ifdef ENABLE_GSM
- #if defined(EXTERNAL_GSM)
+ #ifdef EXTERNAL_GSM
 +#ifdef HAVE_GSM_H
 +#include <gsm.h>
 +#else
@@ -26,14 +26,14 @@
  #else
  #include "libgsm/gsm.h"
  #endif
---- sox-12.18.2/configure.in.orig	2006-08-28 01:04:51.000000000 +0200
-+++ sox-12.18.2/configure.in	2006-09-11 22:18:03.286462750 +0200
-@@ -232,7 +232,7 @@
- then
-     if test "$enable_external_gsm" = yes
-     then
--        AC_CHECK_HEADERS(gsm/gsm.h, found_libgsm=yes)
-+        AC_CHECK_HEADERS(gsm/gsm.h, found_libgsm=yes, [AC_CHECK_HEADERS(gsm.h, [AC_DEFINE(HAVE_GSM_H) found_libgsm=yes])])
+--- sox-13.0.0/configure.ac.orig	2007-02-11 20:48:22.000000000 +0100
++++ sox-13.0.0/configure.ac	2007-02-17 21:36:55.888040211 +0100
+@@ -96,7 +96,7 @@
+ fi
  
-         if test "$found_libgsm" = yes
-         then
+ dnl Check for libgsm
+-AC_CHECK_HEADERS(gsm/gsm.h, found_libgsm=yes)
++AC_CHECK_HEADERS(gsm/gsm.h, found_libgsm=yes, [AC_CHECK_HEADERS(gsm.h, [AC_DEFINE(HAVE_GSM_H) found_libgsm=yes])])
+ if test "$found_libgsm" = yes; then
+     AC_CHECK_LIB(gsm, gsm_create, LIBS="$LIBS -lgsm")
+     AC_DEFINE(EXTERNAL_GSM, 1, [Define if you are using an external GSM library])
