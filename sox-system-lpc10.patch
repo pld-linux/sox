@@ -1,0 +1,33 @@
+--- sox-14.0.0/src/lpc10.c.orig	2007-09-09 15:21:15.000000000 +0200
++++ sox-14.0.0/src/lpc10.c	2007-12-01 19:44:07.799556106 +0100
+@@ -19,7 +19,7 @@
+  * USA.  */
+ 
+ #include "sox_i.h"
+-#include "../lpc10/lpc10.h"
++#include <lpc10.h>
+ 
+ /* Private data */
+ typedef struct lpcpriv {
+--- sox-14.0.0/src/Makefile.am.orig	2007-09-11 05:58:05.000000000 +0200
++++ sox-14.0.0/src/Makefile.am	2007-12-01 19:44:08.399590300 +0100
+@@ -95,7 +95,7 @@
+ libsox_fmt_hcom_la_SOURCES = hcom.c
+ libsox_fmt_hcom_la_LIBADD = libsox.la
+ libsox_fmt_lpc10_la_SOURCES = lpc10.c
+-libsox_fmt_lpc10_la_LIBADD = ../lpc10/liblpc10.la libsox.la
++libsox_fmt_lpc10_la_LIBADD = -llpc10 libsox.la
+ libsox_fmt_maud_la_SOURCES = maud.c
+ libsox_fmt_maud_la_LIBADD = libsox.la
+ libsox_fmt_prc_la_SOURCES = prc.c
+--- sox-14.0.0/Makefile.am.orig	2007-09-06 18:03:35.000000000 +0200
++++ sox-14.0.0/Makefile.am	2007-12-01 19:47:13.774154195 +0100
+@@ -2,7 +2,7 @@
+ 
+ ACLOCAL_AMFLAGS = -I m4
+ 
+-SUBDIRS = lpc10 libgsm src
++SUBDIRS = libgsm src
+ if HAVE_LIBLTDL
+ SUBDIRS += libltdl
+ endif
