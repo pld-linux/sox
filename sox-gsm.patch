@@ -26,14 +26,3 @@
  #else
  #include "libgsm/gsm.h"
  #endif
---- sox-13.0.0/configure.ac.orig	2007-02-11 20:48:22.000000000 +0100
-+++ sox-13.0.0/configure.ac	2007-02-17 21:36:55.888040211 +0100
-@@ -96,7 +96,7 @@
- fi
- 
- dnl Check for libgsm
--AC_CHECK_HEADERS(gsm/gsm.h, found_libgsm=yes)
-+AC_CHECK_HEADERS(gsm/gsm.h, found_libgsm=yes, [AC_CHECK_HEADERS(gsm.h, [AC_DEFINE(HAVE_GSM_H) found_libgsm=yes])])
- if test "$found_libgsm" = yes; then
-     AC_CHECK_LIB(gsm, gsm_create, LIBS="$LIBS -lgsm")
-     AC_DEFINE(EXTERNAL_GSM, 1, [Define if you are using an external GSM library])
