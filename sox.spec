@@ -13,15 +13,14 @@ Summary(ru.UTF-8):	Утилита общего назначения для ра�
 Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
-Version:	14.0.0
-Release:	2
+Version:	14.0.1
+Release:	1
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	c0c242fb2760cea9dc30de884eb1facc
+# Source0-md5:	6c95af60b20b9655531bf3162c0be937
 Patch0:		%{name}-gsm.patch
 Patch1:		%{name}-system-lpc10.patch
-Patch2:		%{name}-amr.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_amr:BuildRequires:	amrnb-devel}
@@ -166,7 +165,6 @@ bibliotekę libmad, a do kodowania - LAME.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__libtoolize}
