@@ -27,7 +27,7 @@ URL:		http://sox.sourceforge.net/
 %{?with_amr:BuildRequires:	amrwb-devel}
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
-BuildRequires:	ffmpeg-devel
+BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080930.1
 BuildRequires:	flac-devel
 BuildRequires:	ladspa-devel
 BuildRequires:	lame-libs-devel
