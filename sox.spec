@@ -20,6 +20,7 @@ Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
 # Source0-md5:	b8e2cb3d615d3830347a0948dd8b74a8
 Patch0:		%{name}-system-lpc10.patch
+Patch1:		%{name}-ffmpeg.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_amr:BuildRequires:	amrnb-devel}
@@ -165,6 +166,7 @@ bibliotekę libmad, a do kodowania - LAME.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
