@@ -14,7 +14,7 @@ Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
 Version:	14.1.0
-Release:	3
+Release:	4
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
