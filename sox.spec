@@ -40,6 +40,7 @@ BuildRequires:	libsndfile-devel
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	lpc10-devel
+BuildRequires:	pkgconfig
 BuildRequires:	wavpack-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
