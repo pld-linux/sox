@@ -202,7 +202,7 @@ bibliotekę libmad, a do kodowania - LAME.
 	--without-pulseaudio \
 %endif
 	--with-sndfile=dyn \
-	--enable-dl-sndfile \ # =dyn won't work, break the dep this way
+	--enable-dl-sndfile \
 	--with-wavpack=dyn
 
 %{__make}
