@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	alsa	# ALSA support
+%bcond_without	pulseaudio	# PulseAudio support
 %bcond_with	amr	# AMR codecs (AMR-NB and AMR-WB) support
 #
 Summary:	A general purpose sound file conversion tool
@@ -13,12 +14,12 @@ Summary(ru.UTF-8):	Утилита общего назначения для ра�
 Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
-Version:	14.2.0
-Release:	4
+Version:	14.3.1
+Release:	1
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	7afc0e85d14be014f08e7d3b7ee8c24e
+# Source0-md5:	b99871c7bbae84feac9d0d1f010331ba
 Patch0:		%{name}-system-lpc10.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
@@ -40,6 +41,7 @@ BuildRequires:	libsndfile-devel
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	lpc10-devel
+%{?with_pulseaudio:BuildRequires:	pulseaudio-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	wavpack-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -175,8 +177,33 @@ bibliotekę libmad, a do kodowania - LAME.
 %{__automake}
 %configure \
 	--enable-ltdl-install=no \
-	%{!?with_alsa:--disable-alsa-dsp} \
-	%{!?with_amr:--without-amr-nb --without-amr-wb}
+%if %{with alsa}
+	--with-alsa=dyn \
+%else
+	--disable-alsa-dsp \
+%endif
+%if %{with amr}
+	--with-amrnb=dyn \
+	--with-amrwb=dyn \
+%else
+	--without-amrnb \
+	--without-amrwb \
+%endif
+	--with-ao=dyn \
+	--with-ffmpeg=dyn \
+	--with-flac=dyn \
+	--with-gsm=dyn \
+	--with-lpc10=dyn \
+	--with-mp3=dyn \
+	--with-oggvorbis=dyn \
+%if %{with pulseaudio}
+	--with-pulseaudio=dyn \
+%else
+	--without-pulseaudio \
+%endif
+	--with-sndfile=dyn \
+	--enable-dl-sndfile \ # =dyn won't work, break the dep this way
+	--with-wavpack=dyn
 
 %{__make}
 
@@ -214,73 +241,27 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libsox.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsox.so.1
 %dir %{_libdir}/sox
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_aifc.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_aiff.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_al.so*
 %if %{with alsa}
 # R: alsa-lib
 %attr(755,root,root) %{_libdir}/sox/libsox_fmt_alsa.so*
 %endif
 # R: libao
 %attr(755,root,root) %{_libdir}/sox/libsox_fmt_ao.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_au.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_avr.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_caf.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_cdr.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_cvsd.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_dat.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_dvms.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_f4.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_f8.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_fap.so*
 # R: flac
 %attr(755,root,root) %{_libdir}/sox/libsox_fmt_flac.so*
 # R: libgsm
 %attr(755,root,root) %{_libdir}/sox/libsox_fmt_gsm.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_hcom.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_htk.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_ima.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_la.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_lu.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_maud.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_mat4.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_mat5.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_nul.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_oss.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_paf.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_prc.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_pvf.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_raw.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_s1.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_s2.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_s3.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_s4.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sf.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sd2.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_smp.so*
+%if %{with pulseaudio}
+# R: pulseaudio-libs
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_pulseaudio.so*
+%endif
 # R: libsndfile
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sndfile.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sounder.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_soundtool.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sphere.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_svx.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_txw.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_u1.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_u2.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_u3.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_u4.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_ul.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_voc.so*
+# won't build dynamically for some reason
+#%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sndfile.so*
 # R: libogg libvorbis
 %attr(755,root,root) %{_libdir}/sox/libsox_fmt_vorbis.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_vox.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_w64.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_wav.so*
 # R: wavpack
 %attr(755,root,root) %{_libdir}/sox/libsox_fmt_wavpack.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_wve.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_xa.so*
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_xi.so*
 %{_mandir}/man1/play.1*
 %{_mandir}/man1/rec.1*
 %{_mandir}/man1/sox.1*
