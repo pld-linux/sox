@@ -1,0 +1,29 @@
+--- sox-14.3.1/configure.ac.orig	2010-01-03 00:53:19.000000000 +0100
++++ sox-14.3.1/configure.ac	2010-11-02 20:22:13.859099937 +0100
+@@ -452,7 +452,7 @@
+ else
+   enable_dl_amrwb="no"
+ fi
+-AC_OPTIONAL_FORMAT(amrwb, AMRWB, [using_amrwb=$tmp_using_amrwb])
++AC_OPTIONAL_FORMAT(amrwb, AMRWB, [if test "x$tmp_using_amrwb" = "xno"; then using_amrwb=no; fi])
+ 
+ dnl When enable_dl_amrnb, do not let add libraries to be linked in
+ dnl since they will be dlopen()'ed instead.
+@@ -479,7 +479,7 @@
+ else
+   enable_dl_amrnb="no"
+ fi
+-AC_OPTIONAL_FORMAT(amrnb, AMRNB, [using_amrnb=$tmp_using_amrnb])
++AC_OPTIONAL_FORMAT(amrnb, AMRNB, [if test "x$tmp_using_amrnb" = "xno"; then using_amrnb=no; fi])
+ 
+ 
+ AC_OPTIONAL_FORMAT(wavpack, WAVPACK, [AC_CHECK_HEADER(wavpack/wavpack.h, [AC_CHECK_LIB(wavpack, WavpackGetSampleRate, WAVPACK_LIBS="$WAVPACK_LIBS -lwavpack",using_wavpack=no)], using_wavpack=no)])
+@@ -525,7 +525,7 @@
+     enable_dl_sndfile="no"
+   fi
+ fi
+-AC_OPTIONAL_FORMAT(sndfile, SNDFILE, [using_sndfile=$tmp_using_sndfile])
++AC_OPTIONAL_FORMAT(sndfile, SNDFILE, [if test "x$tmp_using_sndfile" = "xno"; then using_sndfile=no; fi])
+ 
+ AC_OPTIONAL_FORMAT(ffmpeg, FFMPEG, [SOX_PATH_FFMPEG(, using_ffmpeg=no)])
+ 

@@ -1,8 +1,9 @@
 #
 # Conditional build:
-%bcond_without	alsa	# ALSA support
+%bcond_without	alsa		# ALSA support
+%bcond_without	gomp		# OpenMP support
 %bcond_without	pulseaudio	# PulseAudio support
-%bcond_with	amr	# AMR codecs (AMR-NB and AMR-WB) support
+%bcond_without	amr		# AMR codecs (AMR-NB and AMR-WB) support
 #
 Summary:	A general purpose sound file conversion tool
 Summary(de.UTF-8):	Mehrzweck-Sounddatei-Konvertierungs-Tool
@@ -21,26 +22,29 @@ Group:		Applications/Sound
 Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
 # Source0-md5:	b99871c7bbae84feac9d0d1f010331ba
 Patch0:		%{name}-system-lpc10.patch
+Patch1:		%{name}-dyn.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
-%{?with_amr:BuildRequires:	amrnb-devel}
-%{?with_amr:BuildRequires:	amrwb-devel}
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080930.1
 BuildRequires:	flac-devel
+%{?with_gomp:BuildRequires:	gcc >= 6:4.2}
 BuildRequires:	ladspa-devel
-BuildRequires:	lame-libs-devel
+BuildRequires:	lame-libs-devel >= 3.98
 BuildRequires:	libao-devel
+%{?with_gomp:BuildRequires:	libgomp-devel}
 BuildRequires:	libgsm-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libmad-devel
+BuildRequires:	libmagic-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libsndfile-devel
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	lpc10-devel
+%{?with_amr:BuildRequires:	opencore-amr-devel}
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	wavpack-devel
@@ -156,6 +160,7 @@ Summary(pl.UTF-8):	Moduł SoX obsługujący format MP3
 # libmad is GPLed, libmp3lame can contain GPL parts (and in PLD it does)
 License:	GPL v2+
 Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
 
 %description fmt-mp3
 SoX module with MP3 format support. It uses libmad for decoding and
@@ -168,6 +173,7 @@ bibliotekę libmad, a do kodowania - LAME.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -176,34 +182,12 @@ bibliotekę libmad, a do kodowania - LAME.
 %{__autoheader}
 %{__automake}
 %configure \
-	--enable-ltdl-install=no \
-%if %{with alsa}
-	--with-alsa=dyn \
-%else
-	--disable-alsa-dsp \
-%endif
-%if %{with amr}
-	--with-amrnb=dyn \
-	--with-amrwb=dyn \
-%else
-	--without-amrnb \
-	--without-amrwb \
-%endif
-	--with-ao=dyn \
-	--with-ffmpeg=dyn \
-	--with-flac=dyn \
-	--with-gsm=dyn \
-	--with-lpc10=dyn \
-	--with-mp3=dyn \
-	--with-oggvorbis=dyn \
-%if %{with pulseaudio}
-	--with-pulseaudio=dyn \
-%else
-	--without-pulseaudio \
-%endif
-	--with-sndfile=dyn \
-	--enable-dl-sndfile \
-	--with-wavpack=dyn
+	%{!?with_gomp:--disable-gomp} \
+	--with-distro='PLD Linux Distribution' \
+	--with-dyn-default \
+	%{!?with_alsa:--without-alsa} \
+	%{!?with_amr:--without-amrnb --without-amrwb} \
+	%{!?with_pulseaudio:--without-pulseaudio}
 
 %{__make}
 
@@ -217,11 +201,11 @@ echo "#!/bin/sh" > $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo "" >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 echo '%{_bindir}/sox $1 -t .au - > /dev/audio' >> $RPM_BUILD_ROOT%{_bindir}/soxplay
 
-rm -f $RPM_BUILD_ROOT%{_mandir}/man1/{play,rec}.1
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/{play,rec}.1
 echo '.so sox.1' > $RPM_BUILD_ROOT%{_mandir}/man1/play.1
 echo '.so sox.1' > $RPM_BUILD_ROOT%{_mandir}/man1/rec.1
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/sox/*.{la,a}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/sox/*.{la,a}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -243,25 +227,34 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/sox
 %if %{with alsa}
 # R: alsa-lib
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_alsa.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_alsa.so
 %endif
 # R: libao
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_ao.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_ao.so
 # R: flac
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_flac.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_flac.so
 # R: libgsm
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_gsm.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_gsm.so
 %if %{with pulseaudio}
 # R: pulseaudio-libs
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_pulseaudio.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_pulseaudio.so
 %endif
-# R: libsndfile
-# won't build dynamically for some reason
-#%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sndfile.so*
+# R: libsndfile (+submodules)
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sndfile.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_caf.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_fap.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_mat4.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_mat5.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_oss.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_paf.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_pvf.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_sd2.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_w64.so
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_xi.so
 # R: libogg libvorbis
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_vorbis.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_vorbis.so
 # R: wavpack
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_wavpack.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_wavpack.so
 %{_mandir}/man1/play.1*
 %{_mandir}/man1/rec.1*
 %{_mandir}/man1/sox.1*
@@ -286,22 +279,22 @@ rm -rf $RPM_BUILD_ROOT
 %files fmt-amr
 %defattr(644,root,root,755)
 # R: amr-nb
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_amr_nb.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_amr_nb.so
 # R: amr-wb
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_amr_wb.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_amr_wb.so
 %endif
 
 %files fmt-ffmpeg
 %defattr(644,root,root,755)
 # R: ffmpeg-libs
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_ffmpeg.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_ffmpeg.so
 
 %files fmt-lpc10
 %defattr(644,root,root,755)
 # R: lpc10
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_lpc10.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_lpc10.so
 
 %files fmt-mp3
 %defattr(644,root,root,755)
 # R: lame-libs libmad
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_mp3.so*
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_mp3.so
