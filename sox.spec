@@ -15,12 +15,12 @@ Summary(ru.UTF-8):	Утилита общего назначения для ра�
 Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
-Version:	14.3.1
+Version:	14.3.2
 Release:	1
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
-Source0:	http://dl.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	b99871c7bbae84feac9d0d1f010331ba
+Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
+# Source0-md5:	e9d35cf3b0f8878596e0b7c49f9e8302
 Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
 URL:		http://sox.sourceforge.net/
@@ -35,6 +35,7 @@ BuildRequires:	lame-libs-devel >= 3.98
 BuildRequires:	libao-devel
 %{?with_gomp:BuildRequires:	libgomp-devel}
 BuildRequires:	libgsm-devel
+BuildRequires:	libid3tag-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libmad-devel
 BuildRequires:	libmagic-devel
