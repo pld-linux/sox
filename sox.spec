@@ -23,11 +23,12 @@ Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
 # Source0-md5:	e9d35cf3b0f8878596e0b7c49f9e8302
 Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
+Patch2:		%{name}-ffmpeg.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
-BuildRequires:	ffmpeg-devel >= 0.4.9-4.20080930.1
+BuildRequires:	ffmpeg-devel >= 0.7.1
 BuildRequires:	flac-devel
 %{?with_gomp:BuildRequires:	gcc >= 6:4.2}
 BuildRequires:	ladspa-devel
@@ -175,6 +176,7 @@ bibliotekę libmad, a do kodowania - LAME.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
