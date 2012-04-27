@@ -28,7 +28,7 @@ URL:		http://sox.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	ffmpeg-devel >= 0.7.1
-BuildRequires:	flac-devel
+BuildRequires:	flac-devel >= 1.1.3
 %{?with_gomp:BuildRequires:	gcc >= 6:4.2}
 BuildRequires:	ladspa-devel
 BuildRequires:	lame-libs-devel >= 3.98
@@ -41,13 +41,14 @@ BuildRequires:	libmad-devel
 BuildRequires:	libmagic-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libsamplerate-devel
-BuildRequires:	libsndfile-devel
+BuildRequires:	libsndfile-devel >= 1.0.12
 BuildRequires:	libtool
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	lpc10-devel
 %{?with_amr:BuildRequires:	opencore-amr-devel}
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel}
 BuildRequires:	pkgconfig
+BuildRequires:	twolame-devel
 BuildRequires:	wavpack-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -217,7 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 # COPYING contains only notes, not GPL/LGPL texts
-%doc AUTHORS COPYING ChangeLog README src/monkey.*
+%doc AUTHORS COPYING ChangeLog NEWS README src/monkey.*
 %attr(755,root,root) %{_bindir}/play
 %attr(755,root,root) %{_bindir}/rec
 %attr(755,root,root) %{_bindir}/sox
