@@ -15,15 +15,14 @@ Summary(ru.UTF-8):	Утилита общего назначения для ра�
 Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
-Version:	14.3.2
-Release:	5
+Version:	14.4.0
+Release:	1
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
 Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	e9d35cf3b0f8878596e0b7c49f9e8302
+# Source0-md5:	b0c15cff7a4ba0ec17fdc74e6a1f9cf1
 Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
-Patch2:		%{name}-ffmpeg.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf >= 2.50
@@ -176,7 +175,6 @@ bibliotekę libmad, a do kodowania - LAME.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -226,7 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/soxi
 %attr(755,root,root) %{_bindir}/soxplay
 %attr(755,root,root) %{_libdir}/libsox.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libsox.so.1
+%attr(755,root,root) %ghost %{_libdir}/libsox.so.2
 %dir %{_libdir}/sox
 %if %{with alsa}
 # R: alsa-lib
@@ -269,7 +267,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libsox.so
 %{_includedir}/sox.h
-%{_includedir}/soxstdint.h
 %{_pkgconfigdir}/sox.pc
 %{_mandir}/man3/libsox.3*
 
