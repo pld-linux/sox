@@ -16,13 +16,15 @@ Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
 Version:	14.4.0
-Release:	1
+Release:	2
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
 Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
 # Source0-md5:	b0c15cff7a4ba0ec17fdc74e6a1f9cf1
 Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
+Patch2:		sox-14.4.0-avcodec54.patch
+Patch3:		sox-14.4.0-ffmpeg.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf >= 2.50
@@ -176,6 +178,8 @@ bibliotekę libmad, a do kodowania - LAME.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 %{__libtoolize}
