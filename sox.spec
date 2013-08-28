@@ -25,6 +25,8 @@ Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
 Patch2:		sox-14.4.0-avcodec54.patch
 Patch3:		sox-14.4.0-ffmpeg.patch
+Patch4:		%{name}-types.patch
+Patch5:		%{name}-ffmpeg.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf >= 2.50
@@ -180,6 +182,8 @@ bibliotekę libmad, a do kodowania - LAME.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 %{__libtoolize}

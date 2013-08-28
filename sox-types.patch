@@ -1,0 +1,11 @@
+--- sox-14.4.1/src/ao.c.orig	2013-01-13 20:57:39.000000000 +0100
++++ sox-14.4.1/src/ao.c	2013-08-28 21:13:50.391766270 +0200
+@@ -74,7 +74,7 @@
+   return SOX_SUCCESS;
+ }
+ 
+-static void sox_sw_write_buf(char *buf1, sox_sample_t const * buf2, size_t len, sox_bool swap, size_t * clips)
++static void sox_sw_write_buf(char *buf1, sox_sample_t const * buf2, size_t len, sox_bool swap, sox_uint64_t * clips)
+ {
+     while (len--)
+     {
