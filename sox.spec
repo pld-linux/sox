@@ -15,12 +15,12 @@ Summary(ru.UTF-8):	Утилита общего назначения для ра�
 Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
-Version:	14.4.0
-Release:	3
+Version:	14.4.1
+Release:	1
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
 Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	b0c15cff7a4ba0ec17fdc74e6a1f9cf1
+# Source0-md5:	670307f40763490a2bc0d1f322071e7a
 Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
 Patch2:		sox-14.4.0-avcodec54.patch
