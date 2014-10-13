@@ -1,7 +1,39 @@
---- sox-14.4.1/src/ffmpeg.c.orig	2013-08-28 21:02:16.835128774 +0200
-+++ sox-14.4.1/src/ffmpeg.c	2013-08-28 21:17:33.048423663 +0200
-@@ -98,7 +98,7 @@
-   ic->error_recognition = 1;
+diff -urN sox-14.4.1.org/m4/ffmpeg.m4 sox-14.4.1/m4/ffmpeg.m4
+--- sox-14.4.1.org/m4/ffmpeg.m4	2011-03-02 23:10:27.000000000 +0100
++++ sox-14.4.1/m4/ffmpeg.m4	2014-10-13 07:11:31.825357581 +0200
+@@ -49,7 +49,7 @@
+   LIBS="$LIBS $FFMPEG_LIBS"
+   have_ffmpeg="no"
+   AC_CHECK_HEADERS([libavformat/avformat.h ffmpeg/avformat.h],
+-    [AC_CHECK_LIB(avformat, av_open_input_file,
++    [AC_CHECK_LIB(avformat, avformat_open_input,
+       [AC_CHECK_HEADERS([libavcodec/avcodec.h ffmpeg/avcodec.h],
+         [AC_CHECK_LIB(avcodec, avcodec_decode_audio3, have_ffmpeg=yes)])])
+     break])
+diff -urN sox-14.4.1.org/src/ffmpeg.c sox-14.4.1/src/ffmpeg.c
+--- sox-14.4.1.org/src/ffmpeg.c	2012-01-23 23:27:33.000000000 +0100
++++ sox-14.4.1/src/ffmpeg.c	2014-10-13 07:12:27.294541928 +0200
+@@ -57,6 +57,11 @@
+ #define PKT_FLAG_KEY AV_PKT_FLAG_KEY
+ #endif
+ 
++#ifndef AVCODEC_MAX_AUDIO_FRAME_SIZE
++#define AVCODEC_MAX_AUDIO_FRAME_SIZE (192000 * 4)
++#endif
++
++
+ /* Private data for ffmpeg files */
+ typedef struct {
+   int audio_index;
+@@ -92,11 +97,13 @@
+   enc->workaround_bugs = 1;
+ #if LIBAVCODEC_VERSION_INT < ((52<<16)+(0<<8)+0)
+   enc->error_resilience = 1;
+-#else
++#elif LIBAVCODEC_VERSION_INT < ((54<<16)+(0<<8)+0)
+   enc->error_recognition = 1;
++#else
++  ic->error_recognition = 1;
  #endif
  
 -  if (!codec || avcodec_open(enc, codec) < 0)
@@ -9,25 +41,54 @@
      return -1;
    if (enc->codec_type != AVMEDIA_TYPE_AUDIO) {
      lsx_fail("ffmpeg CODEC %x is not an audio CODEC", enc->codec_type);
-@@ -163,7 +163,7 @@
+@@ -157,7 +164,7 @@
+ static int startread(sox_format_t * ft)
+ {
+   priv_t * ffmpeg = (priv_t *)ft->priv;
+-  AVFormatParameters params;
++  AVDictionary *params;
    int ret;
    int i;
  
--  ffmpeg->audio_buf_raw = lsx_calloc(1, (size_t)AVCODEC_MAX_AUDIO_FRAME_SIZE + 32);
-+  ffmpeg->audio_buf_raw = lsx_calloc(1, (size_t)192000 /* AVCODEC_MAX_AUDIO_FRAME_SIZE */ + 32);
-   ffmpeg->audio_buf_aligned = ALIGN16(ffmpeg->audio_buf_raw);
+@@ -172,13 +179,13 @@
  
-   /* Signal audio stream not found */
-@@ -235,7 +235,7 @@
+   /* Open file and get format */
+   memset(&params, 0, sizeof(params));
+-  if ((ret = av_open_input_file(&ffmpeg->ctxt, ft->filename, NULL, 0, &params)) < 0) {
++  if ((ret = avformat_open_input(&ffmpeg->ctxt, ft->filename, NULL, &params)) < 0) {
+     lsx_fail("ffmpeg cannot open file for reading: %s (code %d)", ft->filename, ret);
+     return SOX_EOF;
+   }
+ 
+   /* Get CODEC parameters */
+-  if ((ret = av_find_stream_info(ffmpeg->ctxt)) < 0) {
++  if ((ret = avformat_find_stream_info(ffmpeg->ctxt, NULL)) < 0) {
+     lsx_fail("ffmpeg could not find CODEC parameters for %s", ft->filename);
+     return SOX_EOF;
+   }
+@@ -231,7 +238,7 @@
+     /* If input buffer empty, read more data */
+     if (ffmpeg->audio_buf_index * 2 >= ffmpeg->audio_buf_size) {
        if ((ret = av_read_frame(ffmpeg->ctxt, pkt)) < 0 &&
- 	  (ret == AVERROR_EOF || ( ffmpeg->ctxt->pb && ffmpeg->ctxt->pb->error)))
+-	  (ret == AVERROR_EOF || url_ferror(ffmpeg->ctxt->pb)))
++	  (ret == AVERROR_EOF || ( ffmpeg->ctxt->pb && ffmpeg->ctxt->pb->error)))
  	break;
--      ffmpeg->audio_buf_size = audio_decode_frame(ffmpeg, ffmpeg->audio_buf_aligned, AVCODEC_MAX_AUDIO_FRAME_SIZE);
-+      ffmpeg->audio_buf_size = audio_decode_frame(ffmpeg, ffmpeg->audio_buf_aligned, 192000 /* AVCODEC_MAX_AUDIO_FRAME_SIZE */ );
+       ffmpeg->audio_buf_size = audio_decode_frame(ffmpeg, ffmpeg->audio_buf_aligned, AVCODEC_MAX_AUDIO_FRAME_SIZE);
        ffmpeg->audio_buf_index = 0;
-     }
+@@ -256,8 +263,12 @@
+   if (ffmpeg->audio_stream >= 0)
+     stream_component_close(ffmpeg, ffmpeg->audio_stream);
+   if (ffmpeg->ctxt) {
++#if LIBAVFORMAT_VERSION_INT > AV_VERSION_INT(53,25,0)
++    avformat_close_input(&ffmpeg->ctxt);
++#else
+     av_close_input_file(ffmpeg->ctxt);
+     ffmpeg->ctxt = NULL; /* safety */
++#endif
+   }
  
-@@ -269,7 +269,7 @@
+   free(ffmpeg->audio_buf_raw);
+@@ -267,12 +278,12 @@
  /*
   * add an audio output stream
   */
@@ -36,7 +97,13 @@
  {
    AVCodecContext *c;
    AVStream *st;
-@@ -308,18 +308,18 @@
+ 
+-  st = av_new_stream(oc, 1);
++  st = avformat_new_stream(oc, NULL);
+   if (!st) {
+     lsx_fail("ffmpeg could not alloc stream");
+     return NULL;
+@@ -306,7 +317,7 @@
    }
  
    /* open it */
@@ -45,25 +112,81 @@
      lsx_fail("ffmpeg could not open CODEC");
      return SOX_EOF;
    }
- 
--  ffmpeg->audio_buf_raw = lsx_malloc((size_t)AVCODEC_MAX_AUDIO_FRAME_SIZE + 32);
-+  ffmpeg->audio_buf_raw = lsx_malloc((size_t)192000 /* AVCODEC_MAX_AUDIO_FRAME_SIZE */ + 32);
-   ffmpeg->audio_buf_aligned = ALIGN16(ffmpeg->audio_buf_raw);
- 
-   /* ugly hack for PCM codecs (will be removed ASAP with new PCM
-      support to compute the input frame size in samples */
+@@ -319,10 +330,10 @@
    if (c->frame_size <= 1) {
--    ffmpeg->audio_input_frame_size = AVCODEC_MAX_AUDIO_FRAME_SIZE / c->channels;
-+    ffmpeg->audio_input_frame_size = 192000 /* AVCODEC_MAX_AUDIO_FRAME_SIZE */ / c->channels;
+     ffmpeg->audio_input_frame_size = AVCODEC_MAX_AUDIO_FRAME_SIZE / c->channels;
      switch(st->codec->codec_id) {
-     case CODEC_ID_PCM_S16LE:
-     case CODEC_ID_PCM_S16BE:
-@@ -423,7 +423,7 @@
-       AVPacket pkt;
+-    case CODEC_ID_PCM_S16LE:
+-    case CODEC_ID_PCM_S16BE:
+-    case CODEC_ID_PCM_U16LE:
+-    case CODEC_ID_PCM_U16BE:
++    case AV_CODEC_ID_PCM_S16LE:
++    case AV_CODEC_ID_PCM_S16BE:
++    case AV_CODEC_ID_PCM_U16LE:
++    case AV_CODEC_ID_PCM_U16BE:
+       ffmpeg->audio_input_frame_size >>= 1;
+       break;
+     default:
+@@ -367,19 +378,12 @@
+   /* add the audio stream using the default format codecs
+      and initialize the codecs */
+   ffmpeg->audio_st = NULL;
+-  if (ffmpeg->fmt->audio_codec != CODEC_ID_NONE) {
++  if (ffmpeg->fmt->audio_codec != AV_CODEC_ID_NONE) {
+     ffmpeg->audio_st = add_audio_stream(ft, ffmpeg->ctxt, ffmpeg->fmt->audio_codec);
+     if (ffmpeg->audio_st == NULL)
+       return SOX_EOF;
+   }
  
-       av_init_packet(&pkt);
--      pkt.size = avcodec_encode_audio(c, ffmpeg->audio_buf_aligned, AVCODEC_MAX_AUDIO_FRAME_SIZE, ffmpeg->samples);
-+      pkt.size = avcodec_encode_audio(c, ffmpeg->audio_buf_aligned, 192000 /* AVCODEC_MAX_AUDIO_FRAME_SIZE */, ffmpeg->samples);
-       pkt.pts = av_rescale_q(c->coded_frame->pts, c->time_base, ffmpeg->audio_st->time_base);
-       pkt.flags |= AV_PKT_FLAG_KEY;
-       pkt.stream_index = ffmpeg->audio_st->index;
+-  /* set the output parameters (must be done even if no
+-     parameters). */
+-  if (av_set_parameters(ffmpeg->ctxt, NULL) < 0) {
+-    lsx_fail("ffmpeg invalid output format parameters");
+-    return SOX_EOF;
+-  }
+-
+   /* Next line for debugging */
+   /* dump_format(ffmpeg->ctxt, 0, ft->filename, 1); */
+ 
+@@ -391,14 +395,14 @@
+ 
+   /* open the output file, if needed */
+   if (!(ffmpeg->fmt->flags & AVFMT_NOFILE)) {
+-    if (url_fopen(&ffmpeg->ctxt->pb, ft->filename, URL_WRONLY) < 0) {
++    if (avio_open(&ffmpeg->ctxt->pb, ft->filename, AVIO_FLAG_WRITE) < 0) {
+       lsx_fail("ffmpeg could not open `%s'", ft->filename);
+       return SOX_EOF;
+     }
+   }
+ 
+   /* write the stream header, if any */
+-  av_write_header(ffmpeg->ctxt);
++  avformat_write_header(ffmpeg->ctxt, NULL);
+ 
+   return SOX_SUCCESS;
+ }
+@@ -475,11 +479,7 @@
+ 
+   if (!(ffmpeg->fmt->flags & AVFMT_NOFILE)) {
+     /* close the output file */
+-#if (LIBAVFORMAT_VERSION_INT < 0x340000)
+-    url_fclose(&ffmpeg->ctxt->pb);
+-#else
+-    url_fclose(ffmpeg->ctxt->pb);
+-#endif
++    avio_close(ffmpeg->ctxt->pb);
+   }
+ 
+   /* Free the output context */
+diff -urN sox-14.4.1.org/src/ffmpeg.h sox-14.4.1/src/ffmpeg.h
+--- sox-14.4.1.org/src/ffmpeg.h	2012-01-23 23:27:33.000000000 +0100
++++ sox-14.4.1/src/ffmpeg.h	2014-10-13 07:11:27.848510903 +0200
+@@ -27,6 +27,8 @@
+ #include <ffmpeg/avformat.h>
+ #endif
+ 
++#include <libavutil/mathematics.h>
++
+ #if defined __SUNPRO_C
+   #pragma enable_warn
+ #elif defined _MSC_VER
