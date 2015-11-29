@@ -15,21 +15,19 @@ Summary(ru.UTF-8):	Утилита общего назначения для ра�
 Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
-Version:	14.4.1
-Release:	6
+Version:	14.4.2
+Release:	1
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
-Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.gz
-# Source0-md5:	670307f40763490a2bc0d1f322071e7a
+Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.bz2
+# Source0-md5:	ba804bb1ce5c71dd484a102a5b27d0dd
 Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
-Patch2:		%{name}-ffmpeg.patch
-Patch3:		%{name}-types.patch
+Patch2:		%{name}-link.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
-BuildRequires:	autoconf >= 2.50
+BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
-BuildRequires:	ffmpeg-devel >= 0.7.1
 BuildRequires:	flac-devel >= 1.1.3
 %{?with_gomp:BuildRequires:	gcc >= 6:4.2}
 BuildRequires:	ladspa-devel
@@ -48,10 +46,13 @@ BuildRequires:	libtool
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	lpc10-devel
 %{?with_amr:BuildRequires:	opencore-amr-devel}
+BuildRequires:	opusfile-devel
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	twolame-devel
 BuildRequires:	wavpack-devel
+Suggests:	ffmpeg
+Obsoletes:	sox-fmt-ffmpeg
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -132,20 +133,6 @@ SoX modules with AMR-NB and AMR-WB format support.
 %description fmt-amr -l pl.UTF-8
 Moduły SoX obsługujące formaty AMR-NB i AMR-WB.
 
-%package fmt-ffmpeg
-Summary:	SoX module which uses ffmpeg codecs
-Summary(pl.UTF-8):	Moduł SoX wykorzystujący kodeki ffmpeg
-# ffmpeg in PLD is compiled as GPL
-License:	GPL v2+
-Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description fmt-ffmpeg
-SoX module which uses ffmpeg codecs.
-
-%description fmt-ffmpeg -l pl.UTF-8
-Moduł SoX wykorzystujący kodeki ffmpeg.
-
 %package fmt-lpc10
 Summary:	SoX module with LPC10 format support
 Summary(pl.UTF-8):	Moduł SoX obsługujący format LPC10
@@ -174,12 +161,25 @@ LAME for encoding.
 Moduł SoX obsługujący format MP3. Wykorzystuje do dekodowania
 bibliotekę libmad, a do kodowania - LAME.
 
+%package fmt-opus
+Summary:	SoX module with Ogg Opus format support
+Summary(pl.UTF-8):	Moduł SoX obsługujący format Ogg Opus
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description fmt-opus
+SoX module with Ogg Opus format support. It uses opusfile library
+for decoding.
+
+%description fmt-opus -l pl.UTF-8
+Moduł SoX obsługujący format Ogg Opus. Wykorzystuje do dekodowania
+bibliotekę opusfile.
+
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__libtoolize}
@@ -189,6 +189,7 @@ bibliotekę libmad, a do kodowania - LAME.
 %{__automake}
 %configure \
 	%{!?with_gomp:--disable-gomp} \
+	--disable-silent-rules \
 	--with-distro='PLD Linux Distribution' \
 	--with-dyn-default \
 	%{!?with_alsa:--without-alsa} \
@@ -229,7 +230,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/soxi
 %attr(755,root,root) %{_bindir}/soxplay
 %attr(755,root,root) %{_libdir}/libsox.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libsox.so.2
+%attr(755,root,root) %ghost %{_libdir}/libsox.so.3
 %dir %{_libdir}/sox
 %if %{with alsa}
 # R: alsa-lib
@@ -289,11 +290,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/sox/libsox_fmt_amr_wb.so
 %endif
 
-%files fmt-ffmpeg
-%defattr(644,root,root,755)
-# R: ffmpeg-libs
-%attr(755,root,root) %{_libdir}/sox/libsox_fmt_ffmpeg.so
-
 %files fmt-lpc10
 %defattr(644,root,root,755)
 # R: lpc10
@@ -303,3 +299,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 # R: lame-libs libmad
 %attr(755,root,root) %{_libdir}/sox/libsox_fmt_mp3.so
+
+%files fmt-opus
+%defattr(644,root,root,755)
+# R: opusfile
+%attr(755,root,root) %{_libdir}/sox/libsox_fmt_opus.so
