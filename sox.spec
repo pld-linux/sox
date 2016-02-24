@@ -5,6 +5,12 @@
 %bcond_without	pulseaudio	# PulseAudio support
 %bcond_without	amr		# AMR codecs (AMR-NB and AMR-WB) support
 #
+
+# Problems with -D_FORTIFY_SOURCE=2 param: sox fall into infinity loop
+# see also upstream commit:
+# https://sourceforge.net/p/sox/code/ci/256b7e37d14de2e5303a6f899be8cdffda8e1661/
+%undefine _fortify_cflags
+
 Summary:	A general purpose sound file conversion tool
 Summary(de.UTF-8):	Mehrzweck-Sounddatei-Konvertierungs-Tool
 Summary(es.UTF-8):	Herramienta para conversión de archivos de sonido
@@ -16,7 +22,7 @@ Summary(tr.UTF-8):	Genel amaçlı ses dosyası çevirme aracı
 Summary(uk.UTF-8):	Утиліта загального призначення для роботи із звуковими файлами
 Name:		sox
 Version:	14.4.2
-Release:	3
+Release:	4
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
 Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.bz2
