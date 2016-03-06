@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	alsa		# ALSA support
-%bcond_without	gomp		# OpenMP support
+%bcond_without	openmp		# OpenMP support
 %bcond_without	pulseaudio	# PulseAudio support
 %bcond_without	amr		# AMR codecs (AMR-NB and AMR-WB) support
 #
@@ -35,11 +35,11 @@ URL:		http://sox.sourceforge.net/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	flac-devel >= 1.1.3
-%{?with_gomp:BuildRequires:	gcc >= 6:4.2}
+%{?with_openmp:BuildRequires:	gcc >= 6:4.2}
 BuildRequires:	ladspa-devel
 BuildRequires:	lame-libs-devel >= 3.98
 BuildRequires:	libao-devel
-%{?with_gomp:BuildRequires:	libgomp-devel}
+%{?with_openmp:BuildRequires:	libgomp-devel}
 BuildRequires:	libgsm-devel
 BuildRequires:	libid3tag-devel
 BuildRequires:	libltdl-devel
@@ -194,7 +194,7 @@ bibliotekę opusfile.
 %{__autoheader}
 %{__automake}
 %configure \
-	%{!?with_gomp:--disable-gomp} \
+	%{!?with_openmp:--disable-gomp} \
 	--disable-silent-rules \
 	--with-distro='PLD Linux Distribution' \
 	--with-dyn-default \
