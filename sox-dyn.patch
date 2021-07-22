@@ -25,5 +25,5 @@
 -AC_OPTIONAL_FORMAT(sndfile, SNDFILE, [using_sndfile=$tmp_using_sndfile])
 +AC_OPTIONAL_FORMAT(sndfile, SNDFILE, [if test "x$tmp_using_sndfile" = "xno"; then using_sndfile=no; fi])
  
- AC_OPTIONAL_FORMAT(ffmpeg, FFMPEG, [SOX_PATH_FFMPEG(, using_ffmpeg=no)])
+ 
  
