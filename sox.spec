@@ -25,7 +25,7 @@ Version:	14.4.2
 Release:	4
 License:	GPL v2+ (sox), LGPL v2+ (libsox)
 Group:		Applications/Sound
-Source0:	http://downloads.sourceforge.net/sox/%{name}-%{version}.tar.bz2
+Source0:	https://downloads.sourceforge.net/sox/%{name}-%{version}.tar.bz2
 # Source0-md5:	ba804bb1ce5c71dd484a102a5b27d0dd
 Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
