@@ -58,7 +58,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	twolame-devel
 BuildRequires:	wavpack-devel
 Suggests:	ffmpeg
-Obsoletes:	sox-fmt-ffmpeg
+Obsoletes:	sox-fmt-ffmpeg < 14.4.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
