@@ -30,6 +30,7 @@ Source0:	https://downloads.sourceforge.net/sox/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
 Patch2:		%{name}-link.patch
+Patch3:		includes.patch
 URL:		http://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf >= 2.62
@@ -186,6 +187,7 @@ bibliotekę opusfile.
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
 
 %build
 %{__libtoolize}
