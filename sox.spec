@@ -31,7 +31,7 @@ Patch0:		%{name}-system-lpc10.patch
 Patch1:		%{name}-dyn.patch
 Patch2:		%{name}-link.patch
 Patch3:		includes.patch
-URL:		http://sox.sourceforge.net/
+URL:		https://sox.sourceforge.net/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
